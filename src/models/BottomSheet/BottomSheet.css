@@ -1,0 +1,90 @@
+.bottom-sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.bottom-sheet-container {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%;
+  max-width: 420px;
+  margin: 0;
+  background: white;
+  border-radius: 24px 24px 0 0;
+  padding: 24px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.bottom-sheet-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bottom-sheet-container.slide-up {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.bottom-sheet-container.slide-down {
+  transform: translateX(-50%) translateY(100%);
+  opacity: 0;
+}
+
+.bottom-sheet-header {
+    width: 40px;
+    height: 4px;
+    background-color: #ccc;
+    border-radius: 2px;
+    margin: -10px auto 16px auto;
+}
+
+.bottom-sheet-image {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.bottom-sheet-title {
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.bottom-sheet-text {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.bottom-sheet-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 24px;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.bottom-sheet-btn:hover {
+    background: #333;
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.OztaLabs.KalyanaOne",
+      "sha256_cert_fingerprints":
+        [
+          "A6:21:D7:BA:12:F2:C5:83:20:74:90:92:FE:13:DF:57:F1:22:00:2D:A1:5C:0C:F2:D5:37:4E:DD:EF:23:6A:C5",
+          "60:E5:68:4D:86:8E:C1:95:74:89:22:8A:A3:70:50:F6:D9:F5:F8:21:29:FC:88:36:BF:F4:BC:7B:F3:7D:EF:D2"
+        ]  
+    }
+  }
+]

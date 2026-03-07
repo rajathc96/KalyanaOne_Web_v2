@@ -1,0 +1,63 @@
+.notification-wrapper {
+  max-width: 400px;
+  width: 100%;
+}
+
+.notification-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.notification-heading {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+  line-height: 140%;
+}
+
+.notification-subtext {
+  font-size: 12px;
+  font-weight: 400;
+  color: #696969;
+  margin-top: 4px;
+  line-height: 140%;
+}
+
+.notification-item img {
+  width: 40px;
+  height: 24px;
+}
+
+@media screen and (max-width: 600px) {
+  .notification-wrapper {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    max-width: 100%;
+  }
+
+  .notification-heading {
+    margin-bottom: 4px;
+  }
+
+  .search-filter-panel .notification-heading {
+    margin-bottom: 0;
+  }
+
+  .notification-item {
+    /* flex-direction: column; */
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+}

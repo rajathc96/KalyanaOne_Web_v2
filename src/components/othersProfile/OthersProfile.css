@@ -1,0 +1,322 @@
+.lock-icon {
+  transform: scaleX(-1);
+  /* This will reverse/mirror the lock icon horizontally */
+}
+
+.arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+.arrow-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Optional: Add animation for section content */
+.info-section ul,
+.info-section p {
+  transition: all 0.3s ease;
+}
+
+.others-profile {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  gap: 20px;
+}
+
+.others-profile.single {
+  max-width: 1050px;
+}
+
+.cancel-button {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 48.5%;
+  justify-content: space-between;
+  margin-left: -360px;
+  margin-top: 30px;
+}
+
+.cancel-button.loading {
+  margin-left: 0;
+}
+
+.cancel-button img {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cancel-button img:hover {
+  transform: scale(1.1);
+}
+
+.arrow-btn.left-arrow {
+  height: 100%;
+  margin-left: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.arrow-btn.left-arrow:hover {
+  transform: scale(1.1);
+}
+
+.arrow-btn.left-arrow img {
+  cursor: pointer;
+}
+
+.others-photos {
+  width: 110%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+}
+
+.others-photos-container {
+  max-width: 70%;
+  /* width: 32%; */
+}
+
+.others-photos-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 440px;
+  /* margin-left: 10px; */
+}
+
+.image-container {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 99%;
+  height: 480px;
+  /* margin-left: -2px; */
+}
+
+
+.photos-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* gap: 16px; */
+}
+
+.interest-btn,
+.shortlist-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 195px;
+  height: 40px;
+  padding: 10px 12px;
+  gap: 0px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: black;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.interest-btn:hover,
+.shortlist-btn:hover {
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.interest-btn:focus,
+.shortlist-btn:focus {
+  outline: none;
+}
+
+.interest-btn.partner-preference-btn {
+  width: 100%;
+}
+
+.outer-photos-header {
+  display: none;
+}
+
+.others-profile {
+
+  .others-info {
+    min-width: 450px;
+    max-width: 400px;
+    width: 50%;
+    margin-top: 20px;
+    padding-right: 30px;
+    margin-right: 50px;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    height: 85vh;
+    overflow-y: scroll;
+  }
+
+  .single .others-info {
+    max-width: 450px;
+  }
+
+  .others-photos {
+    width: 35%;
+  }
+
+  .others-photos.loading {
+    width: 50%;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .others-profile {
+
+    .others-info,
+    .others-photos {
+      min-width: auto;
+      width: auto;
+    }
+
+    .others-info {
+      height: auto;
+      overflow: visible;
+      border-right: none;
+      padding: 0 16px;
+      margin: 0;
+      padding-bottom: 100px;
+    }
+
+  }
+
+  .arrow-btn.left-arrow,
+  .cancel-button {
+    display: none;
+  }
+
+  .others-profile {
+    max-width: 100%;
+  }
+
+  .profile-scroll-wrapper {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .outer-photos-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    margin-left: -10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+    justify-content: space-between;
+    background: white;
+    padding: 10px 16px 5px;
+    gap: 8px;
+  }
+
+  .outer-photos-header.border {
+    border-bottom: 1px solid #eee;
+  }
+
+  .others-photos {
+    position: relative;
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .others-photos-container {
+    max-width: 100%;
+    width: auto;
+  }
+
+  .others-photos-header {
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+
+  .carousel-container {
+    width: 360px;
+    margin-left: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .image-container {
+    height: 430px;
+  }
+
+  .photos-footer {
+    padding: 15px;
+    width: 100%;
+    gap: 16px;
+    justify-content: space-around;
+  }
+
+  .others-profile .profile-score {
+    display: none;
+  }
+
+  .interest-btn,
+  .shortlist-btn {
+    width: 100%;
+    margin-top: -15px;
+    height: 35px;
+  }
+
+  .interest-btn.partner-preference-btn {
+    width: 93%;
+    margin: -10px auto 0;
+  }
+
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+  }
+
+}
+
+/* .others-photos-name {
+  .others-photos-header {
+ 
+  }
+} */

@@ -1,0 +1,40 @@
+.matches-bottom-sheet-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.matches-bottom-sheet-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #696969;
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-option {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 16px;
+}
+
+.filter-option.active {
+    background-color: #ff025b;
+    color: #fff;
+}

@@ -1,0 +1,369 @@
+.premium-container {
+  padding: 5px;
+  font-family: "Inter", sans-serif;
+  margin: 0 auto;
+  min-width: 400px;
+}
+
+.premium-header {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 45%;
+  top: 20px;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.premium-container-back-button {
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.premium-container-back-button p {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.premium-header.show {
+  display: none;
+}
+
+.plan-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 1100px;
+  margin: 10px auto 0;
+  /* gap: 100px; */
+}
+
+.free-plan-container-border {
+  width: 45%;
+  box-sizing: border-box;
+  border-right: 1px solid #d9d9d9;
+}
+
+.free-plan-container {
+  width: 365px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 20px;
+}
+
+.premium-plan-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 20px;
+}
+
+.toggle-btn {
+  height: 38px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  color: #000;
+  transition: all 0.2s ease-in-out;
+}
+
+.toggle-btn-premium {
+  height: 38px;
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  /* ✅ Actual background */
+  color: #333;
+  /* fallback color */
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gradient only applied to text */
+.gradient-text {
+  background-image: linear-gradient(90deg, #ff025b 0%, #0270ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.toggle-plan-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.toggle-plan-buttons button {
+  flex: 1;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.active-plan-btn.free {
+  background: linear-gradient(90deg, #014399 0%, #0270ff 100%);
+  color: #fff;
+}
+
+.active-plan-btn.premium {
+  background: linear-gradient(90deg, #0270ff 0%, #ff025b 100%);
+  color: #fff;
+
+}
+
+.feature-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 13px 0;
+  align-items: center;
+  /* width:70%; */
+}
+
+.feature-text {
+  font-size: 16px;
+  font-weight: 500;
+  width: 70%;
+}
+
+.feature-limit {
+  color: black;
+  font-weight: 500;
+}
+
+.upgrade-banner {
+  margin-top: 20px;
+  text-align: center;
+  color: #ff025b;
+  font-weight: 500;
+}
+
+.premium-plan-container .plan-cards {
+  width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-top: 100px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.plan-card {
+  padding: 24px 22px;
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.check-icon {
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.plan-title {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.plan-original-price {
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 8px;
+}
+
+.plan-price {
+  color: #ff025b;
+  font-weight: 400;
+}
+
+.best-tag {
+  background: #FF025B;
+  color: #fff;
+  font-size: 14px;
+  padding: 5px 12px 7.5px;
+  border-radius: 16px;
+  margin-left: 8px;
+}
+
+.best-tag.save25 {
+  padding: 6px 12px;
+}
+
+.pay-now-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(to right, #4d00ff, #ff025b);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bottom-note {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  margin-top: 0px;
+}
+
+.unlock-premium-button {
+  width: 100%;
+  background-color: #f5f5f5;
+  /* ✅ Your desired background */
+  border: none;
+  border-radius: 24px;
+  padding: 16px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.gradient-text {
+  color: transparent;
+  background-image: linear-gradient(90deg, #ff025b 0%, #0270ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.includes-text {
+  color: #696969;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.see-more {
+  color: #0270ff;
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.unlock-title {
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.free-plan-container .unlock-title {
+  text-align: left;
+}
+
+.premium-features .feature-limit {
+  color: #15B700;
+  font-weight: 400;
+}
+
+@media (max-width: 1300px) {
+  .premium-container-back-button {
+    top: 40px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .plan-details {
+    justify-content: center;
+    gap: 70px;
+  }
+
+  .free-plan-container-border {
+    width: 40%;
+  }
+}
+
+@media (max-width: 600px) {
+  .premium-container {
+    padding: 10px;
+    width: 100%;
+    min-width: auto;
+  }
+
+  .premium-container-back-button {
+    display: none;
+  }
+
+  .free-plan-container-border {
+    width: 100%;
+    border-right: none;
+  }
+
+  .premium-container .right-sheet-container {
+    bottom: -30px;
+  }
+
+  .premium-header {
+    position: relative;
+    top: auto;
+    left: auto;
+    justify-content: center;
+  }
+
+  .premium-header.show {
+    display: flex;
+  }
+
+
+  .premium-plan-container {
+    height: 87vh;
+  }
+
+  .premium-plan-container .plan-cards {
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .free-plan-container {
+    width: 100%;
+  }
+
+  .unlock-premium-button {
+    margin-top: 50px;
+  }
+
+  .best-tag {
+    padding: 6px 12px 6px;
+  }
+
+}

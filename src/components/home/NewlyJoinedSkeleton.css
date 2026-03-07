@@ -1,0 +1,29 @@
+.skeleton {
+  background: #f3f3f3;
+  border-radius: 16px;
+  padding: 16px;
+  opacity: 0.8;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-bar {
+  display: block;
+  height: 14px;
+  background: #e0e0e0;
+  border-radius: 7px;
+  margin: 6px 0;
+}
+.skeleton-id {
+  width: 80px;
+}
+.skeleton-score {
+  width: 32px;
+}
+.skeleton-detail {
+  width: 120px;
+}
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0.8; }
+}

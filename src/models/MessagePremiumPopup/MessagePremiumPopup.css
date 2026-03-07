@@ -1,0 +1,25 @@
+.premium-message-popup {
+
+    .popup-sheet-image-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .popup-sheet-title {
+        font-weight: 500;
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 12px;
+        white-space: pre-line;
+        text-align: center;
+    }
+
+    .popup-sheet-text {
+        font-weight: 400;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 8px;
+        white-space: pre-line;
+    }
+
+}

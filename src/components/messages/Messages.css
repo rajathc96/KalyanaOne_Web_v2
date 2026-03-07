@@ -1,0 +1,26 @@
+.messages-container {
+  display: flex;
+  flex-direction: row;
+  width: 1050px;
+  gap: 50px;
+  margin: 0 5%;
+  overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+  .messages-container {
+    width: 900px;
+  }
+}
+
+@media (max-width: 600px) {
+  .messages-container {
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    /* padding: 15px 15px 50px; */
+    gap: 0;
+    height: 95vh;
+    overflow-y: scroll;
+  }
+}

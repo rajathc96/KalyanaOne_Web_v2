@@ -1,0 +1,90 @@
+.plan-details-content {
+  margin: 10px auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile-card-plan {
+  /* border: 1px solid #d9d9d9; */
+  border-radius: 16px;
+  overflow: visible;
+  margin-right: 80px;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+
+/* Top profile section */
+.edit-profile-box-two {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+}
+
+/* Info Section inside same box */
+.plan-info-section {
+  border-top: 1px solid #eee;
+  padding: 12px 16px;
+}
+
+.plan-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.label {
+  width: 50%;
+  color: #777;
+}
+
+.value {
+  width: 50%;
+  font-weight: 500;
+}
+
+.verified-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.verified-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.verified-text {
+  font-size: 14px;
+  color: #888;
+}
+
+
+@media (max-width: 600px) {
+
+  .plan-details-content {
+    margin: 0px auto;
+    padding: 0;
+    /* height: 55vh; */
+  }
+
+  .profile-card-plan {
+    margin-top: 0px;
+    margin-right: auto;
+  }
+
+  .edit-profile-box-two {
+    padding: 16px 10px;
+  }
+
+  .plan-info-section {
+    padding: 12px 10px;
+  }
+}

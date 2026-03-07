@@ -1,0 +1,49 @@
+.contact-details-wrapper {
+  max-width: 400px;
+  width: 100%;
+}
+
+.contact-details-title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 140%;
+  margin-bottom: 24px;
+}
+
+.contact-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.contact-inputs input {
+  width: 370px;
+  height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.save-button {
+  width: 100%;
+  height: 44px;
+  background-color: #F5F5F5;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .contact-details-wrapper {
+    max-width: 100%;
+    padding: 0 12px;
+    margin-top: 20px;
+  }
+
+}

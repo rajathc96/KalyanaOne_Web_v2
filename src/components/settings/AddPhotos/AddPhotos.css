@@ -1,0 +1,147 @@
+.add-photos-wrapper {
+  max-width: 400px;
+  width: 100%;
+  height: 87vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.photo-grid {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 190px);
+  grid-template-rows: repeat(2, 230px);
+  gap: 20px;
+}
+
+.photo-box {
+  width: 190px;
+  height: 230px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  /* background-color: #f9f9f9; */
+}
+
+.plus-icon-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 190px;
+  height: 230px;
+}
+
+.plus-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+}
+
+.uploaded-image-container {
+  width: 190px;
+  height: 230px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.photo-hint {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #696969;
+  line-height: 140%;
+}
+
+.add-photos-btn {
+  width: 100%;
+}
+
+.edit-profile-form.add-photos-form {
+  height: 77vh;
+}
+
+.delete-photo-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #fff;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+@media screen and (max-width: 600px) {
+  .add-photos-wrapper {
+    max-width: 100%;
+    padding: 0 10px;
+    margin-top: 20px;
+    height: 82vh;
+  }
+
+  .photo-grid {
+    grid-template-columns: repeat(2, 170px);
+    grid-template-rows: repeat(2, 220px);
+    gap: 15px;
+  }
+
+  .photo-box {
+    width: 170px;
+    height: 220px;
+  }
+
+  .plus-icon-container {
+    width: 170px;
+    height: 220px;
+  }
+
+  .uploaded-image-container {
+    width: 170px;
+    height: 220px;
+  }
+
+  .add-photos-btn {
+    padding: 20px 0;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 600px) {
+
+  .edit-profile-form.add-photos-form {
+    height: 80vh;
+  }
+}
+
+@media (max-width: 370px) {
+
+  .photo-grid {
+    grid-template-columns: repeat(2, 160px);
+    grid-template-rows: repeat(2, 200px);
+    gap: 10px;
+  }
+
+  .photo-box {
+    width: 160px;
+    height: 200px;
+  }
+}

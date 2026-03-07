@@ -1,0 +1,265 @@
+import { useState } from "react";
+// import './PremiumPlan.css';
+// Removed react-razorpay; use SDK from window after loading
+import API_URL from "../../../config";
+import { clientAuth } from "../../../firebase";
+import check from "../../assets/icons/greenright.svg";
+import redMark from "../../assets/icons/redmark.svg";
+import whiteMark from "../../assets/icons/whitemark.svg";
+import UpdateLoader from "../../models/UpdateLoader/UpdateLoader";
+import YesNoModal from "../../models/YesNoModal/YesNoModal";
+import { useNavigate } from "react-router-dom";
+
+const plans = [
+  { duration: "3 Months", price: "₹2999" },
+  { duration: "6 Months", originalPrice: "₹6000", price: "₹4499", save25: true },
+  { duration: "12 Months", originalPrice: "₹12000", price: "₹5988", save50: true },
+];
+
+const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
+
+  const navigate = useNavigate();
+  const [selected, setSelected] = useState(2);
+  const amount = selected === 0 ? 2999 : selected === 1 ? 4499 : 5988;
+
+  const handleClick = (url) => {
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      navigate(`/settings/${url}`);
+    } else {
+      navigate("/settings", {
+        state: { activePanel: url }
+      });
+    }
+  };
+
+  const features = [
+    ["Daily profile views", "Unlimited"],
+    ["Send interests", "Unlimited"],
+    ["Reply to received interests / requests", true],
+    ["View full profile details", true],
+    ["Chat with premium profiles", true],
+  ];
+
+  const [successPopupVisible, setSuccessPopupVisible] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorPopupVisible, setErrorPopupVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorHeading, setErrorHeading] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePayment = async () => {
+    if (globalData?.isPremiumUser) {
+      setErrorHeading("Already Premium");
+      setErrorMessage("You are already a premium member.");
+      setErrorPopupVisible(true);
+      return;
+    }
+
+    if (globalData?.isUserVerified !== true || globalData?.isUserSelfieVerified !== true) {
+      setErrorHeading("Verification Required");
+      setErrorMessage("Please verify your profile before subscribing to Premium.");
+      setErrorPopupVisible(true);
+      return;
+    }
+
+    if (!amount) {
+      setErrorMessage("Please select a subscription plan.");
+      setErrorPopupVisible(true);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const token = await clientAuth.currentUser.getIdToken();
+      if (!token) throw new Error("User not authenticated");
+
+      const res = await fetch(`${API_URL}/api/payment/razorpay/order/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          amount,
+          plan: selected === 2 ? "12_months" : selected === 1 ? "6_months" : "3_months"
+        })
+      });
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.error || "Server error");
+
+      const order_id = data?.order_id;
+      if (!order_id)
+        throw new Error("Server error, Please try again");
+
+      try {
+        const sdkLoaded = await loadRazorpayScript();
+        if (!sdkLoaded) {
+          throw new Error("Failed to load Razorpay SDK");
+        }
+
+        const options = {
+          description: 'KalyanaOne Premium Subscription',
+          image: 'https://firebasestorage.googleapis.com/v0/b/kalyanaone.firebasestorage.app/o/Kalyana_Logo_White.png?alt=media&token=dc1debff-81b1-4d44-b410-b7981477c1cd',
+          currency: 'INR',
+          key: 'rzp_live_RmMBGSPZnHPeU0',
+          amount: amount * 100,
+          name: 'KalyanaOne',
+          order_id: order_id,
+          handler: async function (response) {
+
+            try {
+              const verifyRes = await fetch(`${API_URL}/api/payment/razorpay/verify`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(response)
+              });
+              const verifyData = await verifyRes.json();
+
+              if (!verifyRes.ok)
+                throw new Error(verifyData.error || "Payment verification failed");
+
+              setSuccessMessage("Payment successful! You are now a premium member.");
+              setSuccessPopupVisible(true);
+            } catch (verifyError) {
+              setErrorMessage(`Payment verification failed: ${verifyError?.message || verifyError}`);
+              setErrorPopupVisible(true);
+            }
+          },
+          prefill: {
+            email: clientAuth.currentUser?.email || '',
+            contact: clientAuth.currentUser?.phoneNumber || '',
+            name: clientAuth.currentUser?.displayName || ''
+          },
+          theme: { color: '#FF025B' },
+        };
+        const RazorpayConstructor = window.Razorpay;
+        if (typeof RazorpayConstructor !== "function") {
+          throw new Error("Razorpay is not available");
+        }
+        const razorpay = new RazorpayConstructor(options);
+        razorpay.open();
+
+      } catch (error) {
+        setErrorMessage(`Payment failed: ${error.message || error}`);
+        setErrorPopupVisible(true);
+      }
+    } catch (error) {
+      setErrorMessage(`Could not initiate payment: ${error.message || error}`);
+      setErrorPopupVisible(true);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <div className="premium-plan-container" style={{ height: window.innerHeight - (window.innerWidth > 600 ? 90 : 50) }}>
+      <div className="mobile-only">
+        <h3 className="unlock-title">Unlock all features of KalyanaOne ✨</h3>
+      </div>
+
+      <div className="plan-cards">
+        {plans.map((plan, index) => (
+          <div
+            key={index}
+            className={`plan-card ${selected === index ? "selected" : ""}`}
+            style={{ borderBottom: plan.save50 ? "none" : "1px solid #ccc" }}
+            onClick={() => setSelected(index)}
+          >
+            <div className="plan-header">
+              <div className="plan-info">
+                <img
+                  className="check-icon"
+                  src={selected === index ? redMark : whiteMark}
+                  alt="selection indicator"
+                />
+                <div>
+                  <span className="plan-title">For {plan.duration}</span>
+                  {plan?.originalPrice && <span className="plan-original-price">{plan.originalPrice}</span>}
+                  <span className="plan-price">{plan.price}</span>
+                </div>
+              </div>
+              {plan.save50 && <span className="best-tag">Save 50% ✨</span>}
+              {plan.save25 && <span className="best-tag save25">Save 25%</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mobile-only">
+        <div className="premium-features">
+          <p className="includes-text">Includes all Free plan features +</p>
+          {features.map(([text, status], idx) => (
+            <div className="feature-row" key={idx}>
+              <p>{text}</p>
+              <span className="feature-status">
+                {status === true && <img src={check} alt="check" />}
+                {typeof status === "string" && (
+                  <span className="feature-limit">{status}</span>
+                )}
+              </span>
+            </div>
+          ))}
+          <p className="see-more" onClick={() => setShowPremiumPlanSheet(true)}>see more features</p>
+        </div>
+      </div>
+
+      <button
+        className="pay-now-btn"
+        disabled={isLoading}
+        onClick={handlePayment}
+      >
+        {isLoading ? <UpdateLoader /> : "Pay now"}
+      </button>
+      <p className="bottom-note">
+        {`₹${amount} ${selected === 2 ? "/ Year" : selected === 0 ? "for 3 months" : "for 6 months"}. Cancel anytime.`}
+      </p>
+      <YesNoModal
+        show={successPopupVisible}
+        onClose={() => setSuccessPopupVisible(false)}
+        heading="Payment Successful"
+        data={successMessage}
+        buttonText="OK"
+        onYes={() => setSuccessPopupVisible(false)}
+      />
+
+      <YesNoModal
+        show={errorPopupVisible}
+        onClose={() => setErrorPopupVisible(false)}
+        heading={errorHeading || "Payment Error"}
+        data={errorMessage}
+        buttonText={errorHeading === "Verification Required" ? "Verify Now" : "OK"}
+        onYes={() => {
+          if (errorHeading === "Verification Required") {
+            handleClick('profile-verification');
+          }
+          setErrorPopupVisible(false)
+        }}
+      />
+
+    </div>
+  );
+};
+
+export default PremiumPlan;

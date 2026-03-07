@@ -1,0 +1,171 @@
+.accountfor-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* pushes button to bottom */
+  align-items: center;
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+.accountfor-title {
+  font-size: 18px;
+  font-weight: 500;
+  width: 380px;
+  color: #000;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accountfor-title h4 {
+  width: 100%;
+  text-align: center;
+  margin-right: 35px;
+  font-weight: 500;
+}
+
+.accountfor-title img {
+  cursor: pointer;
+}
+
+.inside-detail-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.inside-detail-input,
+.inside-detail-subcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inside-detail-input {
+  width: 100%;
+  gap: 16px;
+}
+
+.accountfor-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accountfor-btn {
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  width: 300px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  color: #000;
+}
+
+.accountfor-btn:hover {
+  background-color: #e8e8e8;
+}
+
+.info-text {
+  width: 80%;
+  font-size: 12px;
+  text-align: left;
+}
+
+.dob-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.get-started-btn {
+  background-color: #ff025b;
+  color: white;
+  padding: 12px;
+  border-radius: 24px;
+  border: none;
+  font-weight: 500;
+  font-size: 16px;
+  width: 370px;
+  cursor: pointer;
+}
+
+.dob-selector {
+  margin-bottom: 4px;
+  margin-top: 4px;
+}
+
+.accountfor-btn.active {
+  background-color: #ff025b;
+  color: white;
+}
+
+.success-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .accountfor-container {
+    height: 85vh;
+    /* padding: 24px 16px; */
+  }
+
+  .accountfor-title {
+    margin-top: 60px;
+    width: 100%;
+  }
+
+  .inside-detail-subcontainer .floating-label-wrapper,
+  .inside-detail-subcontainer .floating-input-settings {
+    width: 100% !important;
+  }
+
+
+  .accountfor-title img {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+  }
+
+  .accountfor-title h4 {
+    margin-right: 0;
+  }
+
+  .accountfor-options {
+    width: 100%;
+  }
+
+  .accountfor-btn {
+    width: 100%;
+  }
+
+  .info-text {
+    width: 100%;
+  }
+
+  .get-started-btn {
+    width: 350px;
+  }
+
+  .dob-selector {
+    width: 100%;
+  }
+
+  .success-title {
+    margin-bottom: 48px;
+  }
+
+}

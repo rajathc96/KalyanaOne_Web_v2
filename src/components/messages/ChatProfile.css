@@ -1,0 +1,157 @@
+.chat-profile {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 25px;
+  background-color: white;
+  width: 270px;
+}
+
+.chat-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  margin-top: 20px;
+  color: #000;
+}
+
+/* Tabs: All / Unread */
+.chat-tabs {
+  display: flex;
+  justify-content: flex-start;
+  /* Align left by default (laptop) */
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: 24px;
+  background-color: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.tab.active {
+  background-color: #ff025b;
+  color: white;
+}
+
+/* Scrollable wrapper: only profile list scrolls */
+.chat-profile-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-right: 4px;
+}
+
+.chat-profile-scrollable::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
+}
+
+/* Profile list inside scroll */
+.chat-profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Each profile box */
+.chat-profile-box {
+  display: flex;
+  gap: 16px;
+  background-color: transparent;
+  border-radius: 16px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-profile-box:hover {
+  background-color: #f9f9f9;
+}
+
+.chat-profile-box.active-box {
+  background-color: #f5f5f5;
+}
+
+.chat-profile-image-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+/* Name and last message */
+.chat-profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  gap: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-name {
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chat-name.unread {
+  font-weight: bolder;
+}
+
+.chat-preview {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+.chat-preview.unread {
+  font-weight: bolder;
+}
+
+@media (max-width: 600px) {
+  .chat-profile {
+    width: 100%;
+    padding: 5px 15px 80px;
+  }
+
+  .chat-title {
+    font-size: 24px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .chat-tabs {
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 5px;
+    margin-bottom: 12px;
+  }
+
+  .chat-profile-box {
+    background-color: #f5f5f5;
+  }
+}

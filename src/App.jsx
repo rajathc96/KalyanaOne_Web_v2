@@ -141,8 +141,8 @@ function App() {
         {!loading && <div className={`logo ${show ? "" : "not-show"}`}>
           <img src={logo} alt="KalyanaOne Logo" className="logo-img" onClick={() => navigate("/home")} style={{ cursor: "pointer" }} />
           <span className="logo-text" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>KalyanaOne</span>
-          {user?.claims?.profileNotCreated !== true && user?.claims?.admin !== true && <span className="caste-code" onClick={() => setIsCastePopupVisible(true)}>
-            {clientAuth?.currentUser?.uid.split("").slice(1, 4).join("")}
+          {user?.claims?.profileNotCreated !== true && user?.claims?.admin !== true && <span className="caste-code">
+            {user?.claims?.role === "premium" ? "Premium" : ""}
           </span>}
         </div>}
         {user && (user?.claims?.profileNotCreated !== true && user?.claims?.admin !== true) ? (

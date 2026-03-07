@@ -1,7 +1,7 @@
-
 const CasteFilterBottomSheet = ({ visible, onClose, filter, setFilter }) => {
 
     const filters = [
+        { label: "All", value: "all" },
         { label: "Veerashaiva Lingayath", value: "LGY" },
         { label: "Valmiki", value: "VLM" },
         { label: "Brahmin", value: "BRM" },

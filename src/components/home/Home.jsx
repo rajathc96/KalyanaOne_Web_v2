@@ -19,6 +19,7 @@ import Shortlisted from "./Shortlisted.jsx";
 import CasteFilterBottomSheet from "../../models/CasteFilterBottomSheet/CasteFilterBottomSheet.jsx";
 
 const castefilters = [
+  { label: "All", value: "all" },
   { label: "Veerashaiva Lingayath", value: "LGY" },
   { label: "Valmiki", value: "VLM" },
   { label: "Brahmin", value: "BRM" },
@@ -47,7 +48,6 @@ function Home() {
 
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [isDataFetchLoading, setIsDataFetchLoading] = useState(false);
   const [isCastePopupVisible, setIsCastePopupVisible] = useState(false);
   const [successPopupVisible, setSuccessPopupVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -70,7 +70,7 @@ function Home() {
   const [renderableProfiles, setRenderableProfiles] = useState({});
 
   const handleSetCaste = (value) => {
-    if (matchCaste === value) {
+    if (matchCaste === value || value === "all") {
       setMatchCaste("all");
       setMatchFilter("all");
       setFilteredData(data);
@@ -333,9 +333,11 @@ As an early member, you can create an account and explore premium features free 
       <div className="mobile-only">
         <div className="notification-header">
           <h2 className="chat-title">KalyanaOne</h2>
-          <span className="caste-code" onClick={() => setIsCastePopupVisible(true)}>
-            {clientAuth?.currentUser?.uid.split("").slice(1, 4).join("")}
-          </span>
+          {globalData?.isPremiumUser &&
+            <span className="caste-code" onClick={() => setIsCastePopupVisible(true)}>
+              Premium
+            </span>
+            }
         </div>
       </div>
       <div className="header-tabs">
@@ -425,7 +427,7 @@ As an early member, you can create an account and explore premium features free 
             </button>
           ))}
         </div>
-        {data && data.length > 0 ?
+        {filteredData && filteredData.length > 0 ?
           <div key={activeTab} className="tab-content-fade">
             {activeTab === "joined" &&
               (displayType === "layer" ? (
@@ -435,7 +437,7 @@ As an early member, you can create an account and explore premium features free 
               ))}
             {activeTab === "matches" &&
               <Matches
-                data={data}
+                data={filteredData}
                 showFilter={showFilter}
                 setShowFilter={setShowFilter}
                 matchFilter={matchFilter}
@@ -459,7 +461,7 @@ As an early member, you can create an account and explore premium features free 
                   lineHeight: 1.4,
                 }}
               >
-                No Profiles Yet <br /> from Your Community
+                No Profiles Yet <br /> from {castefilters.find((f) => f.value === matchCaste)?.label || "this"} Community
               </p>
               <p
                 style={{
@@ -471,7 +473,7 @@ As an early member, you can create an account and explore premium features free 
                   lineHeight: 1.5,
                 }}
               >
-                We're currently onboarding <br /> members from your community
+                We're currently onboarding <br /> members from {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community
               </p>
 
               <button
@@ -505,16 +507,11 @@ As an early member, you can create an account and explore premium features free 
                   lineHeight: 1.5,
                 }}
               >
-                Invite friend / family member from <br /> your community to join KalyanaOne.
+                Invite friend / family member from <br /> {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community to join KalyanaOne.
               </p>
             </div>
           </div>
         }
-        {isDataFetchLoading && (
-          <div style={{ textAlign: "center", padding: "10px", color: "#555", marginBottom: "50px" }}>
-            Loading more profiles...
-          </div>
-        )}
       </div>
       <CastePopup
         show={isCastePopupVisible}

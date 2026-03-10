@@ -296,6 +296,10 @@
   font-weight: 400;
 }
 
+.early-access-badge {
+  width: 180px;
+}
+
 @media (max-width: 1300px) {
   .premium-container-back-button {
     top: 40px;
@@ -365,5 +369,11 @@
   .best-tag {
     padding: 6px 12px 6px;
   }
+
+  .early-access-badge {
+    /* margin-top: -15px; */
+    width: 140px;
+  }
+
 
 }

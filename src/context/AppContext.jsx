@@ -40,11 +40,14 @@ export function AppProvider({ children }) {
         }
         return;
       }
+      console.log("Fetched user data:", data);
 
       setGlobalData({
         isUserVerified: tokenResult.claims?.verified || false,
         isUserSelfieVerified: tokenResult.claims?.selfieVerified || false,
         isPremiumUser: tokenResult.claims?.role === 'premium',
+        interestAndRequestSentCount: data?.interestAndRequestCount?.totalCount || 0,
+        interestAndRequestLimit: data?.interestAndRequestCount?.limit || 0,
         ...data,
         basicDetails: {
           ...data.basicDetails,

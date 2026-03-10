@@ -4,6 +4,7 @@ const MatchesBottomSheet = ({ visible, onClose, filter, setFilter }) => {
 
     const filters = [
         { label: "All", value: "all" },
+        { label: "Caste", value: "caste" },
         { label: "Age", value: "age" },
         { label: "Height", value: "height" },
         { label: "Income", value: "annualIncome" },

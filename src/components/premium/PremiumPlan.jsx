@@ -1,11 +1,9 @@
 import { useState } from "react";
-// import './PremiumPlan.css';
-// Removed react-razorpay; use SDK from window after loading
 import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import check from "../../assets/icons/greenright.svg";
+import earlyAccessBadge from "../../assets/images/early-access.svg";
 import redMark from "../../assets/icons/redmark.svg";
-import whiteMark from "../../assets/icons/whitemark.svg";
 import UpdateLoader from "../../models/UpdateLoader/UpdateLoader";
 import YesNoModal from "../../models/YesNoModal/YesNoModal";
 import { useNavigate } from "react-router-dom";
@@ -19,8 +17,7 @@ const plans = [
 const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
 
   const navigate = useNavigate();
-  const [selected, setSelected] = useState(2);
-  const amount = selected === 0 ? 2999 : selected === 1 ? 4499 : 5988;
+  const amount = 99;
 
   const handleClick = (url) => {
     const isMobile = window.innerWidth < 768;
@@ -35,11 +32,13 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
   };
 
   const features = [
-    ["Daily profile views", "Unlimited"],
     ["Send interests", "Unlimited"],
     ["Reply to received interests / requests", true],
     ["View full profile details", true],
     ["Chat with premium profiles", true],
+    ["Advanced search filters (income, education, horoscope etc.,)", true],
+    ["Horoscope compatibility check", true],
+    ["Profile boost in search results (coming soon)", true],
   ];
 
   const [successPopupVisible, setSuccessPopupVisible] = useState(false);
@@ -65,22 +64,16 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
   };
 
   const handlePayment = async () => {
-    if (globalData?.isPremiumUser) {
-      setErrorHeading("Already Premium");
-      setErrorMessage("You are already a premium member.");
-      setErrorPopupVisible(true);
-      return;
-    }
+    // if (globalData?.isPremiumUser) {
+    //   setErrorHeading("Already Premium");
+    //   setErrorMessage("You are already a premium member.");
+    //   setErrorPopupVisible(true);
+    //   return;
+    // }
 
     if (globalData?.isUserVerified !== true || globalData?.isUserSelfieVerified !== true) {
       setErrorHeading("Verification Required");
       setErrorMessage("Please verify your profile before subscribing to Premium.");
-      setErrorPopupVisible(true);
-      return;
-    }
-
-    if (!amount) {
-      setErrorMessage("Please select a subscription plan.");
       setErrorPopupVisible(true);
       return;
     }
@@ -98,7 +91,7 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
         },
         body: JSON.stringify({
           amount,
-          plan: selected === 2 ? "12_months" : selected === 1 ? "6_months" : "3_months"
+          plan: "12_months"
         })
       });
       const data = await res.json();
@@ -180,31 +173,27 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
       </div>
 
       <div className="plan-cards">
-        {plans.map((plan, index) => (
-          <div
-            key={index}
-            className={`plan-card ${selected === index ? "selected" : ""}`}
-            style={{ borderBottom: plan.save50 ? "none" : "1px solid #ccc" }}
-            onClick={() => setSelected(index)}
-          >
-            <div className="plan-header">
-              <div className="plan-info">
-                <img
-                  className="check-icon"
-                  src={selected === index ? redMark : whiteMark}
-                  alt="selection indicator"
-                />
-                <div>
-                  <span className="plan-title">For {plan.duration}</span>
-                  {plan?.originalPrice && <span className="plan-original-price">{plan.originalPrice}</span>}
-                  <span className="plan-price">{plan.price}</span>
-                </div>
+        <div className='plan-card selected'>
+          <div className="plan-header">
+            <div className="plan-info">
+              <img
+                className="check-icon"
+                src={redMark}
+                alt="selection indicator"
+              />
+              <div>
+                <span className="plan-title">For 12 months</span>
+                <span className="plan-original-price">₹12000</span>
+                <span className="plan-price">₹99</span>
               </div>
-              {plan.save50 && <span className="best-tag">Save 50% ✨</span>}
-              {plan.save25 && <span className="best-tag save25">Save 25%</span>}
             </div>
+            <img
+              src={earlyAccessBadge}
+              alt="Early Access Badge"
+              className="early-access-badge payment"
+            />
           </div>
-        ))}
+        </div>
       </div>
 
       <div className="mobile-only">
@@ -233,7 +222,7 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
         {isLoading ? <UpdateLoader /> : "Pay now"}
       </button>
       <p className="bottom-note">
-        {`₹${amount} ${selected === 2 ? "/ Year" : selected === 0 ? "for 3 months" : "for 6 months"}. Cancel anytime.`}
+        ₹99/Year. Cancel anytime
       </p>
       <YesNoModal
         show={successPopupVisible}

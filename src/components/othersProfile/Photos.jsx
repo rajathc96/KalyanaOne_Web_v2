@@ -34,6 +34,8 @@ const Photos = ({
   setIsShortlisted,
   isInterestDeclined,
   scrollToPartnerPreference,
+  setIsSendInterestPremiumPopupVisible,
+  setIsSendInterestLimitReachedModalVisible,
   admin = false
 }) => {
   const navigate = useNavigate();
@@ -54,10 +56,11 @@ const Photos = ({
     }
 
     if (!globalData?.isPremiumUser) {
-      setErrorHeading("Premium Feature");
-      setErrorMessage("Upgrade to premium to send interest.");
-      setIsErrorPopupVisible(true);
-      return;
+      return setIsSendInterestPremiumPopupVisible(true);
+    }
+
+    if (globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit) {
+      return setIsSendInterestLimitReachedModalVisible(true);
     }
 
     setIsInterestSending(true);

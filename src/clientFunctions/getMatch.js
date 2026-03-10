@@ -22,7 +22,13 @@ async function getMatchBreakdown(preference, candidate) {
     else
         result["motherTongue"] = true;
 
-    if (preference.subCaste && preference.subCaste.length)
+    if (preference.caste && preference.caste !== "Any") {
+        result.caste = preference.caste === candidate.partnerPreference?.caste ? true : false;
+    }
+    else
+        result.caste = true;
+
+    if (preference.subCaste && preference.subCaste !== "Any" && preference.subCaste.length)
         result["subCaste"] = preference.subCaste.includes(candidate.casteDetails.subCaste) ? true : false;
     else
         result["subCaste"] = true;

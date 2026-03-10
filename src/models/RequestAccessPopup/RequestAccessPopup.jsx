@@ -1,23 +1,41 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import UpdateLoader from "../UpdateLoader/UpdateLoader";
 import YesNoModal from "../YesNoModal/YesNoModal";
+import { AppContext } from "../../context/AppContext";
 
-const RequestAccessPopup = ({ show, onClose, img, heading, data, requestType, profileId, isPremiumUser }) => {
+const RequestAccessPopup = ({
+  show,
+  onClose,
+  img,
+  heading,
+  data,
+  requestType,
+  profileId,
+  isPremiumUser,
+  setIsSendRequestLimitReachedModalVisible,
+  setIsSuccessPopupVisible,
+  setIsErrorPopupVisible,
+  setErrorMessage
+}) => {
   const navigate = useNavigate();
+  const { globalData } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [isErrorPopupVisible, setIsErrorPopupVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isSuccessPopupVisible, setIsSuccessPopupVisible] = useState(false);
 
   const handleRequest = async () => {
     if (isLoading) return;
     if (!profileId || !requestType) {
       setErrorMessage("Profile ID and request type are required.");
       setIsErrorPopupVisible(true);
+      return;
+    }
+
+    if (globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit) {
+      onClose();
+      setIsSendRequestLimitReachedModalVisible(true);
       return;
     }
 
@@ -38,7 +56,6 @@ const RequestAccessPopup = ({ show, onClose, img, heading, data, requestType, pr
         if (!response.ok)
           throw new Error(data.error || "Failed to send access request.");
 
-        onClose();
         setIsSuccessPopupVisible(true);
       }
     }
@@ -47,6 +64,7 @@ const RequestAccessPopup = ({ show, onClose, img, heading, data, requestType, pr
       setIsErrorPopupVisible(true);
     }
     finally {
+      onClose();
       setIsLoading(false);
     }
   }
@@ -82,19 +100,6 @@ const RequestAccessPopup = ({ show, onClose, img, heading, data, requestType, pr
           </button>
         }
       </div>
-      <YesNoModal
-        show={isSuccessPopupVisible}
-        onClose={() => setIsSuccessPopupVisible(false)}
-        heading="Success"
-        data={`${requestType} access request sent successfully.`}
-        buttonText="Ok"
-      />
-      <YesNoModal
-        show={isErrorPopupVisible}
-        onClose={() => setIsErrorPopupVisible(false)}
-        data={errorMessage}
-        buttonText="Ok"
-      />
     </div>
   );
 };

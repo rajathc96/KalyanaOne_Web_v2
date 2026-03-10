@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import API_URL from "../../../config.js";
 import { clientAuth } from "../../../firebase.js";
 import partnerPreference from "../../assets/icons/group_search_color.svg";
+import dove from "../../assets/emojis/dove.json";
 import layer from "../../assets/icons/layers.svg";
 import bellIcon from "../../assets/icons/list.svg";
 import { AppContext } from "../../context/AppContext.jsx";
@@ -17,6 +18,8 @@ import NewlyJoined from "./NewlyJoined.jsx";
 import NewlyJoinedSkeleton from "./NewlyJoinedSkeleton.jsx";
 import Shortlisted from "./Shortlisted.jsx";
 import CasteFilterBottomSheet from "../../models/CasteFilterBottomSheet/CasteFilterBottomSheet.jsx";
+import Lottie from "lottie-react";
+import EarlyAccess from "../../models/EarlyAccess.jsx";
 
 const castefilters = [
   { label: "All", value: "all" },
@@ -30,6 +33,7 @@ const castefilters = [
 
 const filters = [
   { label: "All", value: "all" },
+  { label: "Caste", value: "caste" },
   { label: "Age", value: "age" },
   { label: "Height", value: "height" },
   { label: "Income", value: "annualIncome" },
@@ -42,7 +46,7 @@ export const DATA_CACHE_KEY = `usersDataCache_${clientAuth.currentUser?.uid || '
 const tabs = ["joined", "matches", "shortlisted"];
 
 function Home() {
-  const { globalData } = useContext(AppContext);
+  const { globalData, isEarlyAccessAvailable } = useContext(AppContext);
   const navigate = useNavigate();
   const contentRef = useRef(null);
 
@@ -53,6 +57,7 @@ function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [errorHeading, setErrorHeading] = useState("Error");
   const [errorPopupVisible, setErrorPopupVisible] = useState(false);
+  const [earlyAccessPopupVisible, setEarlyAccessPopupVisible] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [displayType, setDisplayType] = useState("layer");
@@ -196,12 +201,20 @@ function Home() {
     } catch (error) { }
     finally {
       setIsLoading(false);
+      if (isEarlyAccessAvailable === true) setEarlyAccessPopupVisible(true);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (isEarlyAccessAvailable === true) {
+      if (earlyAccessPopupVisible === false)
+        setEarlyAccessPopupVisible(true);
+    }
+  }, [isEarlyAccessAvailable]);
 
   const handlePartnerPreferenceNavigation = () => {
     if (window.innerWidth < 768) {
@@ -323,6 +336,9 @@ As an early member, you can create an account and explore premium features free 
             setDisplayType(displayType === "lists" ? "layer" : "lists")
           }
         >
+          {!globalData?.isPremiumUser && <span className="upgrade-link" onClick={() => navigate("/premium")}>
+            Upgrade
+          </span>}
           <img
             src={displayType === "lists" ? layer : bellIcon}
             alt="Toggle View"
@@ -337,7 +353,7 @@ As an early member, you can create an account and explore premium features free 
             <span className="caste-code" onClick={() => setIsCastePopupVisible(true)}>
               Premium
             </span>
-            }
+          }
         </div>
       </div>
       <div className="header-tabs">
@@ -451,6 +467,12 @@ As an early member, you can create an account and explore premium features free 
           :
           <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <div className="no-profiles-container">
+              <Lottie
+                animationData={dove}
+                loop
+                autoplay
+                style={{ width: 80, height: 80 }}
+              />
               <p
                 style={{
                   fontWeight: "500",
@@ -461,11 +483,23 @@ As an early member, you can create an account and explore premium features free 
                   lineHeight: 1.4,
                 }}
               >
-                No Profiles Yet <br /> from {castefilters.find((f) => f.value === matchCaste)?.label || "this"} Community
+                No {castefilters.find((f) => f.value === matchCaste)?.label || ""} Profiles Yet
               </p>
               <p
                 style={{
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: 400,
+                  color: "#666",
+                  textAlign: "center",
+                  margin: "0 0 5px 0",
+                  lineHeight: 1.5,
+                }}
+              >
+                We're onboarding members from the {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community
+              </p>
+              <p
+                style={{
+                  fontSize: 14,
                   fontWeight: 400,
                   color: "#666",
                   textAlign: "center",
@@ -473,7 +507,7 @@ As an early member, you can create an account and explore premium features free 
                   lineHeight: 1.5,
                 }}
               >
-                We're currently onboarding <br /> members from {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community
+                Invite someone you know to join.
               </p>
 
               <button
@@ -496,19 +530,6 @@ As an early member, you can create an account and explore premium features free 
               >
                 Invite Now
               </button>
-
-              <p
-                style={{
-                  fontSize: 16,
-                  fontWeight: 400,
-                  color: "#666",
-                  textAlign: "center",
-                  margin: 0,
-                  lineHeight: 1.5,
-                }}
-              >
-                Invite friend / family member from <br /> {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community to join KalyanaOne.
-              </p>
             </div>
           </div>
         }
@@ -523,6 +544,11 @@ As an early member, you can create an account and explore premium features free 
         onClose={() => setShowCasteFilter(false)}
         filter={matchCaste}
         setFilter={handleSetCaste}
+      />
+
+      <EarlyAccess
+        show={earlyAccessPopupVisible}
+        onClose={() => setEarlyAccessPopupVisible(false)}
       />
 
       <YesNoModal

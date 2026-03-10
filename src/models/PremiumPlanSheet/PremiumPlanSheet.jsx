@@ -3,7 +3,6 @@ import check from "../../assets/icons/greenright.svg";
 
 const PremiumPlanSheet = ({ show, onClose }) => {
   const features = [
-    ["Daily profile views", "Unlimited"],
     ["Send interests", "Unlimited"],
     ["Reply to received interests / requests", true],
     ["View full profile details", true],

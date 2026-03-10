@@ -14,6 +14,7 @@ const preferenceKeyMap = {
   maritalStatus: "Marital Status",
   location: "Location",
   motherTongue: "Language",
+  caste: "Caste",
   subCaste: "Sub Caste",
   physicalStatus: "Physical Status",
   foodHabit: "Food Habits",

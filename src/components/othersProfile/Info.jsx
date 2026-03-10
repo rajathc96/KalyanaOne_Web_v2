@@ -4,6 +4,8 @@ import lockIcon from "../../assets/icons/lock.svg";
 import { useState, useRef } from "react";
 import { getSections } from "./OtherProfileSections";
 import RequestAccessPopup from "../../models/RequestAccessPopup/RequestAccessPopup";
+import InterestAndRequestLimitPopup from "../../models/InterestAndRequestLimitPopup/InterestAndRequestLimitPopup";
+import YesNoModal from "../../models/YesNoModal/YesNoModal";
 
 const Info = ({
   profileData,
@@ -35,7 +37,12 @@ const Info = ({
 
   const sections = getSections(profileData, isPremiumUser, horoscopeAccess, contactAccess);
 
+  const [isErrorPopupVisible, setIsErrorPopupVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSuccessPopupVisible, setIsSuccessPopupVisible] = useState(false);
+
   const [isRequestAccessModalVisible, setIsRequestAccessModalVisible] = useState(false);
+  const [isSendRequestLimitReachedModalVisible, setIsSendRequestLimitReachedModalVisible] = useState(false);
   const [requestedSection, setRequestedSection] = useState(null);
 
   const handleLockClick = (section) => {
@@ -147,13 +154,38 @@ const Info = ({
         img={lockIcon}
         heading={`${requestedSection === 'horoscope' ? 'Horoscope' : 'Contact'} is locked`}
         data={isPremiumUser ?
-          `${profileData.name} has chosen to keep their ${requestedSection === 'horoscope' ? 'horoscope' : 'contact'} details private. You can request access to view this information`
+          `${profileData.name?.split(' ')[0]} has kept their ${requestedSection === 'horoscope' ? 'horoscope' : 'contact'} details private. You can request access to view it`
           :
           `Upgrade your plan to see ${profileData?.name?.split(' ')[0]}'s ${requestedSection === 'horoscope' ? 'horoscope' : 'contact'} details`}
         requestType={requestedSection}
         profileId={profileId}
         isPremiumUser={isPremiumUser}
+        setIsSendRequestLimitReachedModalVisible={setIsSendRequestLimitReachedModalVisible}
+        setIsSuccessPopupVisible={setIsSuccessPopupVisible}
+        setIsErrorPopupVisible={setIsErrorPopupVisible}
+        setErrorMessage={setErrorMessage}
       />
+
+      <InterestAndRequestLimitPopup
+        show={isSendRequestLimitReachedModalVisible}
+        onClose={() => setIsSendRequestLimitReachedModalVisible(false)}
+        type="requests"
+      />
+
+      <YesNoModal
+        show={isSuccessPopupVisible}
+        onClose={() => setIsSuccessPopupVisible(false)}
+        heading="Success"
+        data={`${requestedSection === 'horoscope' ? 'Horoscope' : 'Contact'} access request sent successfully.`}
+        buttonText="Ok"
+      />
+      <YesNoModal
+        show={isErrorPopupVisible}
+        onClose={() => setIsErrorPopupVisible(false)}
+        data={errorMessage}
+        buttonText="Ok"
+      />
+
     </div>
   );
 };

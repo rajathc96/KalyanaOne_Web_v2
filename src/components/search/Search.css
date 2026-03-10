@@ -44,7 +44,7 @@
 
 
 .search-wrapper {
-  padding: 20px;
+  padding: 15px 20px 20px;
   /* position: relative;  */
   margin: 0 auto;
 }
@@ -84,7 +84,7 @@
 
 .suggested-heading {
   text-align: center;
-  margin-top: 16px;
+  /* margin-top: 16px; */
   margin-bottom: 16px;
   font-size: 16px;
   color: #000;

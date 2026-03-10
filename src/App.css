@@ -61,6 +61,15 @@ body {
   border-radius: 20%;
 }
 
+.upgrade-link {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0270FF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 .logo {
   display: flex;
   align-items: center;

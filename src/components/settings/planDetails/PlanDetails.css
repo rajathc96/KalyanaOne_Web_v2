@@ -66,6 +66,12 @@
   color: #888;
 }
 
+.verification-section {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 16px;
+}
 
 @media (max-width: 600px) {
 

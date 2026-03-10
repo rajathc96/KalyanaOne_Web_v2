@@ -1,5 +1,10 @@
 async function getSingleMatchBreakdown(preference, filter, candidate) {
     switch (filter) {
+        case "caste":
+            if (candidate.partnerPreference?.caste && candidate.partnerPreference?.caste !== "Any") {
+                return preference.caste === candidate.partnerPreference?.caste;
+            }
+            return true;
         case "age":
             if (preference.ageFrom !== undefined && preference.ageTo !== undefined) {
                 return candidate.basicDetails.age >= preference.ageFrom && candidate.basicDetails.age <= preference.ageTo;

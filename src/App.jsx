@@ -147,6 +147,11 @@ function App() {
         </div>}
         {user && (user?.claims?.profileNotCreated !== true && user?.claims?.admin !== true) ? (
           <div className="header-icons">
+            {user?.claims?.role !== "premium" && location.pathname !== "/premium" &&
+              <span className="upgrade-link" onClick={() => navigate("/premium")}>
+                Upgrade
+              </span>
+            }
             <img src={inviteLogo} alt="Invite" className="header-icon-img" onClick={() => setIsInvitePopupVisible(true)} />
             {location.pathname === "/insights" ?
               <img src={barchartActive} alt="Icon 1" className="header-icon-img" onClick={() => navigate("/insights")} />

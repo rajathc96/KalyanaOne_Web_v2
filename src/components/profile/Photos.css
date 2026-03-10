@@ -252,6 +252,12 @@
   outline: none;
 }
 
+.verify-now {
+  font-size: 14px;
+  color: #0270FF;
+  font-weight: 500;
+}
+
 @media (max-width: 600px) {
 
   /* .photos {

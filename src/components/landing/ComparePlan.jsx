@@ -6,10 +6,10 @@ import "./ComparePlan.css";
 
 export default function ComparePlan({ show, onClose }) {
     const features = [
-        { name: "₹ Pricing", free: "₹0", premium: "₹2,999 (3 Months) / ₹4,499 (6 Months) / ₹5,988 (12 Months)" },
+        { name: "₹ Pricing", free: "₹0", premium: "₹99 (12 Months)" },
         { name: "📝 Create & complete profile", free: true, premium: true },
-        { name: "👀 Daily profile views", free: "10/day", premium: "Unlimited" },
-        { name: "💌 Send interests", free: "5/day", premium: "Unlimited" },
+        // { name: "👀 Daily profile views", free: "10/day", premium: "Unlimited" },
+        { name: "💌 Send interests", free: false, premium: "Unlimited" },
         { name: "📩 Receive interests", free: true, premium: true },
         { name: "👤 View full profile details", free: false, premium: true },
         { name: "☎️ View verified contact info (phone/email)", free: false, premium: true },

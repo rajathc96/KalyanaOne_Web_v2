@@ -131,7 +131,7 @@ export function getSections(profileData, isPremiumUser, horoscopeAccess, contact
     {
       title: "Caste & Subcaste",
       content: [
-        // { label: "Caste", value: profileData?.casteDetails?.caste || "Not specified" },
+        { label: "Caste", value: profileData?.casteDetails?.caste || "Not specified" },
         {
           label: "Subcaste",
           value: profileData?.casteDetails?.subCaste || "Not specified",

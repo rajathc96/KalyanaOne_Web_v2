@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientAuth } from "../../../../firebase";
-import check from "../../../assets/icons/verified.svg";
 import { AppContext } from "../../../context/AppContext";
 import "./PlanDetails.css";
 import premiumIcon from "../../../assets/icons/PremiumIcon.svg";
@@ -147,10 +146,16 @@ const PlanDetails = ({ onClose }) => {
             </div>
           </div>
 
-          {globalData.isPremiumUser && <div className="verified-section">
-            <img src={check} alt="verified" className="verified-icon" />
-            <span className="verified-text">Premium Profile</span>
-          </div>}
+          <div className="verification-section">
+            {globalData.isUserVerified && globalData.isUserSelfieVerified && <div className="verified-section">
+              <img src={verifiedIcon} alt="verified" className="verified-icon" />
+              <span className="verified-text">Premium Profile</span>
+            </div>}
+            {globalData.isPremiumUser && <div className="verified-section">
+              <img src={premiumIcon} alt="Premium" className="verified-icon" />
+              <span className="verified-text">Premium Profile</span>
+            </div>}
+          </div>
         </div>
         {!globalData.isPremiumUser &&
           <button className="upgrade-btn" onClick={() => navigate("/premium")}>Upgrade to premium</button>

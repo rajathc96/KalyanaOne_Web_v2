@@ -112,7 +112,7 @@ export function getSections(profileData, globalData) {
             title: "Personal details",
             content: [
                 { label: "Physical Status", value: profileData?.personalDetails?.physicalStatus || "N/A" },
-                { label: "Weight", value: profileData?.personalDetails?.weight || "N/A" },
+                { label: "Weight", value: profileData?.personalDetails?.weight ? profileData.personalDetails.weight + " kg" : "N/A" },
                 { label: "Food Habit", value: profileData?.personalDetails?.foodHabit || "N/A" },
                 { label: "Drinking", value: profileData?.personalDetails?.drinking || "N/A" },
                 { label: "Smoking", value: profileData?.personalDetails?.smoking || "N/A" }

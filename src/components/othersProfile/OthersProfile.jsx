@@ -17,6 +17,8 @@ import Info from "./Info";
 import "./OthersProfile.css";
 import Photos from "./Photos";
 import YesNoModal from "../../models/YesNoModal/YesNoModal";
+import InterestAndRequestLimitPopup from "../../models/InterestAndRequestLimitPopup/InterestAndRequestLimitPopup";
+import InterestSendPremiumPopup from "../../models/InterestSendPremiumPopup/InterestSendPremiumPopup";
 
 const OthersProfile = () => {
   const { profileId } = useParams();
@@ -40,6 +42,9 @@ const OthersProfile = () => {
   const timerRef = useRef(null);
   const [isErrorPopupVisible, setIsErrorPopupVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [isSendInterestLimitReachedModalVisible, setIsSendInterestLimitReachedModalVisible] = useState(false);
+  const [isSendInterestPremiumPopupVisible, setIsSendInterestPremiumPopupVisible] = useState(false);
 
   const scrollToPartnerPreference = () => {
     partnerPrefRef.current?.scrollIntoView({
@@ -387,6 +392,8 @@ const OthersProfile = () => {
                 isShortListed={isShortListed}
                 setIsShortlisted={setIsShortlisted}
                 scrollToPartnerPreference={scrollToPartnerPreference}
+                setIsSendInterestLimitReachedModalVisible={setIsSendInterestLimitReachedModalVisible}
+                setIsSendInterestPremiumPopupVisible={setIsSendInterestPremiumPopupVisible}
               />
               {/* </div>
               <div> */}
@@ -425,13 +432,23 @@ const OthersProfile = () => {
         img={shortlistRemove}
       />
 
+      <InterestAndRequestLimitPopup
+        show={isSendInterestLimitReachedModalVisible}
+        onClose={() => setIsSendInterestLimitReachedModalVisible(false)}
+        type="interests"
+      />
+
+      <InterestSendPremiumPopup
+        show={isSendInterestPremiumPopupVisible}
+        onClose={() => setIsSendInterestPremiumPopupVisible(false)}
+      />
+
       <YesNoModal
         show={isErrorPopupVisible}
         onClose={() => setIsErrorPopupVisible(false)}
         heading="Error"
         data={errorMessage}
         buttonText="Ok"
-
       />
 
     </div>

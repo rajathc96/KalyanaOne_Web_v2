@@ -71,7 +71,7 @@ const Photos = ({ profileData }) => {
         <>
           <div className="photos-header">
             <h3 style={{ display: "flex", alignItems: "center", gap: "5px" }}>{clientAuth?.currentUser?.displayName}
-              {profileData?.isUserVerified && profileData?.isUserSelfieVerified &&
+              {profileData?.isUserVerified && profileData?.isUserSelfieVerified ?
                 <>
                   <img
                     src={verifiedIcon}
@@ -91,7 +91,23 @@ const Photos = ({ profileData }) => {
                       setIsPremiumPopupVisible(true);
                     }}
                   />}
-                </>}
+                </>
+                :
+                <>
+                  <span
+                    className="verify-popup-btn"
+                    style={{
+                      padding: "4px 8px",
+                      width: "fit-content",
+                      fontSize: "10px",
+                      marginLeft: "5px",
+                    }}
+                    onClick={() => handleNavigation("profile-verification")}
+                  >
+                    Verify Profile
+                  </span>
+                </>
+              }
             </h3>
             <p>{clientAuth?.currentUser?.uid}</p>
           </div>

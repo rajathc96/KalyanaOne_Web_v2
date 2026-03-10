@@ -9,10 +9,9 @@ const FreePlan = ({ selectedPlan, setSelectedPlan }) => {
 
   const features = [
     ["Create & complete profile", true],
-    ["Daily profile views", "10/day"],
-    ["Send interests", "5/day"],
+    ["Send interests", false],
     ["Receive interests", true],
-    ["View full profile details", false],
+    ["View partial profile details", true],
     ["View verified contact info (phone/email)", false],
     ["Chat with matched profiles", false],
     ["Advanced search filters (income, education, horoscope etc..)", false],
@@ -26,7 +25,6 @@ const FreePlan = ({ selectedPlan, setSelectedPlan }) => {
 
 
   const premiumFeatures = [
-    ["Daily profile views", "Unlimited"],
     ["Send interests", "Unlimited"],
     ["Reply to received interests / requests", true],
     ["View full profile details", true],

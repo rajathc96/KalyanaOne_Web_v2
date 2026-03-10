@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import cancelInterest from "../../assets/icons/cancel-interest.svg";
@@ -122,7 +121,7 @@ const Sent = ({ item, setNotificationsData }) => {
       <PopupSheet
         show={isCancelInterestModalVisible}
         onClose={() => setIsCancelInterestModalVisible(false)}
-        heading="Cancel Interest"
+        heading={`Cancel ${item.type === "interest" ? "Interest" : item.requestType + " request"}`}
         data={`Are you sure you want to cancel?`}
         onYes={handleCancelRequest}
         img={cancelInterest}
@@ -133,7 +132,7 @@ const Sent = ({ item, setNotificationsData }) => {
         heading="Error"
         data={errorMessage}
         buttonText="Ok"
-        
+
       />
     </>
   );

@@ -41,6 +41,7 @@ const partnerFieldLabels = {
     language: "Preferred Language",
     location: "Preferred Location",
     maritalStatus: "Marital Status",
+    caste: "Caste",
     subCaste: "Subcaste",
     highestQualification: "Education",
     occupation: "Occupation",

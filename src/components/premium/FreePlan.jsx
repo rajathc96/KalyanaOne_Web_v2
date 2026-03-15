@@ -14,7 +14,7 @@ const FreePlan = ({ selectedPlan, setSelectedPlan }) => {
     ["View partial profile details", true],
     ["View verified contact info (phone/email)", false],
     ["Chat with matched profiles", false],
-    ["Advanced search filters (income, education, horoscope etc..)", false],
+    ["Search with advanced search filters", false],
     ["Horoscope compatibility check", false],
     ["Profile boost in search results", false],
     ["See who viewed your profile", false],
@@ -25,12 +25,12 @@ const FreePlan = ({ selectedPlan, setSelectedPlan }) => {
 
 
   const premiumFeatures = [
-    ["Send interests", "Unlimited"],
+    ["Send interests / requests", "50 per plan"],
     ["Reply to received interests / requests", true],
     ["View full profile details", true],
     ["View verified contact info (phone/ email)", true],
     ["Chat with premium profiles", true],
-    ["Advanced search filters (income, education, horoscope etc.,)", true],
+    ["Search with advanced search filters", true],
     ["Horoscope compatibility check", true],
     ["Privacy control settings", true],
     // ["See who viewed your profile", true],
@@ -57,6 +57,7 @@ const FreePlan = ({ selectedPlan, setSelectedPlan }) => {
         {selectedPlan === "premium" &&
           <div style={{ marginBottom: "20px", marginTop: "50px" }}>
             <h3 className="unlock-title" style={{ marginBottom: "10px" }}>
+              {/* Unlock the full KalyanaOne experience ✨ */}
               Unlock all features of KalyanaOne ✨
             </h3>
             <p className="includes-text">Includes all Free plan features +</p>

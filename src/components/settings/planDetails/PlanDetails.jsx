@@ -136,12 +136,20 @@ const PlanDetails = ({ onClose }) => {
                 </span>
               </div>
               {globalData?.isPremiumUser &&
-                <div className="plan-row">
-                  <span className="label">Valid Period</span>
-                  <span className="value">
-                    {daysRemaining} days remaining
-                  </span>
-                </div>
+                <>
+                  <div className="plan-row">
+                    <span className="label">Interest/Request Left</span>
+                    <span className="value">
+                      {Number(globalData.interestAndRequestLimit) - Number(globalData.interestAndRequestSentCount)}
+                    </span>
+                  </div>
+                  <div className="plan-row">
+                    <span className="label">Valid Period</span>
+                    <span className="value">
+                      {daysRemaining} days remaining
+                    </span>
+                  </div>
+                </>
               }
             </div>
           </div>
@@ -149,7 +157,7 @@ const PlanDetails = ({ onClose }) => {
           <div className="verification-section">
             {globalData.isUserVerified && globalData.isUserSelfieVerified && <div className="verified-section">
               <img src={verifiedIcon} alt="verified" className="verified-icon" />
-              <span className="verified-text">Premium Profile</span>
+              <span className="verified-text">Verified Profile</span>
             </div>}
             {globalData.isPremiumUser && <div className="verified-section">
               <img src={premiumIcon} alt="Premium" className="verified-icon" />

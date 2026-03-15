@@ -11,6 +11,7 @@ import PremiumInfoPopup from "../../models/PremiumInfoPopup/PremiumInfoPopup";
 import VerifiedPopup from "../../models/VerifiedPopup/VerifiedPopup";
 import Lists from "./Lists";
 import { CalculateScore } from "./NewlyJoined";
+import NewlyJoinedSkeleton from "./NewlyJoinedSkeleton";
 
 
 const Shortlisted = () => {
@@ -62,7 +63,7 @@ const Shortlisted = () => {
             return updatedData;
           });
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -72,9 +73,15 @@ const Shortlisted = () => {
 
   if (isLoading) {
     return (
-      <div className="profiles-grid">
-        <Skeleton count={10} height={70} style={{ marginTop: 10, borderRadius: 10 }} />
-      </div>
+      <>
+        {isMobile ?
+          <div className="profiles-grid">
+            <Skeleton count={10} height={70} style={{ marginTop: 10, borderRadius: 10 }} />
+          </div>
+          :
+          <NewlyJoinedSkeleton />
+        }
+      </>
     )
   }
 

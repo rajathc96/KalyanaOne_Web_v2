@@ -131,7 +131,6 @@
 .active-plan-btn.premium {
   background: linear-gradient(90deg, #0270ff 0%, #ff025b 100%);
   color: #fff;
-
 }
 
 .feature-row {
@@ -144,7 +143,7 @@
 
 .feature-text {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   width: 70%;
 }
 
@@ -296,6 +295,18 @@
   font-weight: 400;
 }
 
+.premium-plan-container .landing-page {
+  min-height: auto;
+  overflow: hidden;
+  margin-top: 25px;
+  padding: 10px 0;
+}
+
+.premium-plan-container .plan {
+  flex: none;
+  min-width: 360px;
+}
+
 .early-access-badge {
   width: 180px;
 }
@@ -366,14 +377,25 @@
     margin-top: 50px;
   }
 
+  .unlock-title {
+    font-size: 18px;
+  }
+
   .best-tag {
     padding: 6px 12px 6px;
+  }
+
+  .premium-plan-container .landing-page {
+    margin-top: 0;
+  }
+
+  .premium-plan-container .plan {
+    min-width: 100%;
+    margin: 0;
   }
 
   .early-access-badge {
     /* margin-top: -15px; */
     width: 140px;
   }
-
-
 }

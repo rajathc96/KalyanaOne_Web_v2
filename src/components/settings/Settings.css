@@ -175,6 +175,12 @@
   cursor: pointer;
 }
 
+.plan .upgrade-btn {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 22px;
+}
+
 .plan-details-content .upgrade-btn {
   width: 100%;
   margin: 0 auto 5px;

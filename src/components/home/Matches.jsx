@@ -27,19 +27,18 @@ function Matches({ data, showFilter, setShowFilter, matchFilter, setMatchFilter,
 
   const [loading, setLoading] = useState(true);
 
-  const filteredProfiles = data.filter((profile) => renderableProfiles[profile.uid])
+  const filteredProfiles = data.filter((profile) => renderableProfiles[profile.uid]) || [];
 
   useEffect(() => {
     const checkMatchScoreForProfiles = async () => {
       if (!Array.isArray(data)) return;
-      setLoading(true);
-
+      
       if (data.length === 0) {
         setRenderableProfiles({});
-        setLoading(false);
         return;
       }
-
+      
+      setLoading(true);
       const shouldRender = {};
 
       await Promise.all(

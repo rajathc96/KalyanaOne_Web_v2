@@ -19,9 +19,7 @@ const PremiumPlanDesktop = ({ selectedPlan, setSelectedPlan }) => {
     ];
 
     return (
-        // <div className="free-plan-container" style={{ height: window.innerHeight - (window.innerWidth > 600 ? 90 : 50) }}>
         <div className="free-plan-container">
-            {/* <h3 className="unlock-title">Unlock all features of KalyanaOne ✨</h3> */}
             {selectedPlan === "free" &&
                 <div className="desktop-only">
                     <button

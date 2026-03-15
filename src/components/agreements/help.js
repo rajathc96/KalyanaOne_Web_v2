@@ -34,7 +34,7 @@ export const faq = [
             "Yes! Basic features are free.\\nWe also offer a Premium Plan with added benefits like:",
         ],
         bullets: [
-            "Send unlimited interests",
+            "Send 50 interests/requests per plan",
             "Premium features mentioned in the plan",
             "Higher visibility"
         ]

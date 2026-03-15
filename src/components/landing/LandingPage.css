@@ -335,11 +335,11 @@
     }
 
     .plan-cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        /* display: grid; */
+        display: flex;
         gap: 24px;
-        justify-content: flex-start;
-        align-items: start;
+        justify-content: center;
+        align-items: center;
         flex-wrap: nowrap;
         margin-top: 12px;
         overflow-x: auto;
@@ -379,6 +379,7 @@
         font-weight: 500;
         margin: 0 0 14px;
         color: #111;
+        letter-spacing: -1.5px;
     }
 
     .price-old {
@@ -392,13 +393,14 @@
         list-style: none;
         color: #444;
         flex: 1 0 auto;
+        margin: 30px 0;
     }
 
     .plan-features li {
         margin: 10px 0;
         font-size: 14px;
         color: #555;
-
+        letter-spacing: -0.5px;
     }
 
     .plan .plan-btn {
@@ -429,7 +431,7 @@
 
     .early-access-badge {
         margin-top: -10px;
-        width: 150px;
+        width: 170px;
     }
 
     .highlight {
@@ -808,8 +810,9 @@
         .plan-cards {
             display: flex;
             gap: 12px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
+            overflow: hidden;
+            /* overflow-x: auto;
+            scroll-snap-type: x mandatory; */
             padding-inline: 8vw;
             -webkit-overflow-scrolling: touch;
         }
@@ -849,6 +852,10 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+        }
+
+        .plan-features {
+            margin-bottom: 0px;
         }
 
         .app-card {

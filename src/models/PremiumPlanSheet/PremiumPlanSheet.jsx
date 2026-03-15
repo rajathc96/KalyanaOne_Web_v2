@@ -3,12 +3,12 @@ import check from "../../assets/icons/greenright.svg";
 
 const PremiumPlanSheet = ({ show, onClose }) => {
   const features = [
-    ["Send interests", "Unlimited"],
+    ["Send interests / requests", "50 per plan"],
     ["Reply to received interests / requests", true],
     ["View full profile details", true],
     ["View verified contact info (phone/ email)", true],
     ["Chat with premium profiles", true],
-    ["Advanced search filters (income, education, horoscope etc.,)", true],
+    ["Search with advanced search filters", true],
     ["Horoscope compatibility check", true],
     ["Profile boost in search results (coming soon)", true],
     ["See who viewed your profile", true],

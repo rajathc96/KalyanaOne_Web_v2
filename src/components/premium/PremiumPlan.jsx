@@ -2,7 +2,7 @@ import { useState } from "react";
 import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import check from "../../assets/icons/greenright.svg";
-import earlyAccessBadge from "../../assets/images/early-access.svg";
+import limited from "../../assets/images/limited1000.svg";
 import redMark from "../../assets/icons/redmark.svg";
 import UpdateLoader from "../../models/UpdateLoader/UpdateLoader";
 import YesNoModal from "../../models/YesNoModal/YesNoModal";
@@ -32,13 +32,9 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
   };
 
   const features = [
-    ["Send interests", "Unlimited"],
+    ["Send interests / requests", "50 per plan"],
     ["Reply to received interests / requests", true],
     ["View full profile details", true],
-    ["Chat with premium profiles", true],
-    ["Advanced search filters (income, education, horoscope etc.,)", true],
-    ["Horoscope compatibility check", true],
-    ["Profile boost in search results (coming soon)", true],
   ];
 
   const [successPopupVisible, setSuccessPopupVisible] = useState(false);
@@ -172,26 +168,33 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
         <h3 className="unlock-title">Unlock all features of KalyanaOne ✨</h3>
       </div>
 
-      <div className="plan-cards">
-        <div className='plan-card selected'>
-          <div className="plan-header">
-            <div className="plan-info">
-              <img
-                className="check-icon"
-                src={redMark}
-                alt="selection indicator"
-              />
-              <div>
-                <span className="plan-title">For 12 months</span>
-                <span className="plan-original-price">₹12000</span>
-                <span className="plan-price">₹99</span>
-              </div>
-            </div>
+      <div className="landing-page">
+        <div className="plan">
+          <div>
+            <h4>Early Member Offer</h4>
+            <p className="price"><span className="price-old">₹499</span> ₹99 / Year</p>
             <img
-              src={earlyAccessBadge}
-              alt="Early Access Badge"
-              className="early-access-badge payment"
+              src={limited}
+              alt="Limited Time Offer"
+              className="early-access-badge"
             />
+          </div>
+          <div>
+            <ul className="plan-features">
+              <li>💎 Maximum value, minimum cost</li>
+              <li>❤️ Send 50 interests/requests per plan</li>
+              <li>💰 Less than ₹9 / month</li>
+              <li>🚀 Includes all premium features</li>
+              <li>♾️ Unlimited profile search</li>
+              <li>🎧 Priority customer support</li>
+            </ul>
+            <button
+              className="upgrade-btn"
+              onClick={handlePayment}
+              disabled={isLoading}
+            >
+              {isLoading ? <UpdateLoader /> : "Get Premium – ₹99/year only!"}
+            </button>
           </div>
         </div>
       </div>
@@ -213,17 +216,6 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
           <p className="see-more" onClick={() => setShowPremiumPlanSheet(true)}>see more features</p>
         </div>
       </div>
-
-      <button
-        className="pay-now-btn"
-        disabled={isLoading}
-        onClick={handlePayment}
-      >
-        {isLoading ? <UpdateLoader /> : "Pay now"}
-      </button>
-      <p className="bottom-note">
-        ₹99/Year. Cancel anytime
-      </p>
       <YesNoModal
         show={successPopupVisible}
         onClose={() => setSuccessPopupVisible(false)}

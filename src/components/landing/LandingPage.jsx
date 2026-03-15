@@ -1,6 +1,6 @@
 import { useState } from "react";
 import couple from "../../assets/images/couple.svg";
-import earlyAccessBadge from "../../assets/images/early-access.svg";
+import limited from "../../assets/images/limited1000.svg";
 import easyToUse from "../../assets/images/easy-to-use.svg";
 import googlePlayBadge from "../../assets/images/google-play-badge.svg";
 import instagramLogo from "../../assets/images/instagram.svg";
@@ -17,7 +17,6 @@ import "./LandingPage.css";
 
 export default function LandingPage() {
 	// const navigate = useNavigate();
-	const [selectedPlan, setSelectedPlan] = useState("6months");
 	const [showComparePlan, setShowComparePlan] = useState(false);
 
 	return (
@@ -144,85 +143,27 @@ export default function LandingPage() {
 
 					<div className="plan-cards">
 						<div className="plan">
-							<span className={`save-tag fifty ${selectedPlan === "3months" ? "selected" : ""}`}>Early Member Privilege</span>
 							<div>
-								<h4>3 Months Plan</h4>
-								<p className="price"><span className="price-old">₹2,999</span> ₹0✨</p>
+								<h4>Early Member Offer</h4>
+								<p className="price"><span className="price-old">₹499</span> ₹99 / Year</p>
 								<img
-									src={earlyAccessBadge}
-									alt="Early Access Badge"
+									src={limited}
+									alt="Limited Time Offer"
 									className="early-access-badge"
 								/>
 							</div>
 							<div>
 								<ul className="plan-features">
 									<li style={{ fontWeight: 500 }}>💡 Best for Starters</li>
-									<li>💵 Comes to ₹0 / month</li>
-									<li>🚀 Includes all premium features</li>
-									<li>⏳ Good for short-term access</li>
-									<li>🎧 Priority customer support</li>
-								</ul>
-								<button
-									className={`plan-btn ${selectedPlan === "3months" ? "selected" : ""}`}
-									onClick={() => setSelectedPlan("3months")}
-									disabled={selectedPlan === "3months"}
-								>
-									Register your profile for free!
-								</button>
-							</div>
-						</div>
-
-						<div className="plan">
-							<span className={`save-tag ${selectedPlan === "6months" ? "selected" : ""}`}>Save 25%</span>
-							<div>
-								<h4>6 Months Plan</h4>
-								<p className="price"><span className="price-old">₹5,999</span> ₹4,499</p>
-							</div>
-							<div>
-								<ul className="plan-features">
-									<li style={{ fontWeight: 500 }}>🤝 Save more than 3 months plan</li>
-									<li>💰 Save 25% compared to 3‑month plan</li>
-									<li>💳 Comes to ₹749 / month</li>
-									<li>🚀 Includes all premium features</li>
-									<li>🌱 Good for meaningful search</li>
-									<li>🎧 Priority customer support</li>
-								</ul>
-								<button
-									className={`plan-btn ${selectedPlan === "6months" ? "selected" : ""}`}
-									onClick={() => setSelectedPlan("6months")}
-									disabled={selectedPlan === "6months"}
-								>
-									Buy 6 Months Plan
-								</button>
-							</div>
-						</div>
-
-						<div className="plan">
-							<span className={`save-tag fifty ${selectedPlan === "12months" ? "selected" : ""}`}>Save 50% ✨</span>
-							<div>
-								<h4>12 Months Plan (Best Value)</h4>
-								<p className="price"><span className="price-old">₹12,000</span> ₹5,988</p>
-								<img
-									src={prelaunchBadge}
-									alt="Pre-launch Offer Badge"
-									className="prelaunch-badge"
-								/>
-							</div>
-							<div>
-								<ul className="plan-features">
-									<li style={{ fontWeight: 500 }}>💎 Maximum value, minimum cost</li>
-									<li>💰 Save 50% compared to 3‑month plan</li>
-									<li>💳 Comes to ₹499 / month</li>
+									<li>💎 Maximum value, minimum cost</li>
+									<li>❤️ Send 50 interests/requests per plan</li>
+									<li>💰 Less than ₹9 / month</li>
 									<li>🚀 Includes all premium features</li>
 									<li>♾️ Unlimited profile search</li>
 									<li>🎧 Priority customer support</li>
 								</ul>
-								<button
-									className={`plan-btn ${selectedPlan === "12months" ? "selected" : ""}`}
-									onClick={() => setSelectedPlan("12months")}
-									disabled={selectedPlan === "12months"}
-								>
-									Buy 12 Months Plan
+								<button className="upgrade-btn">
+									Get Premium – ₹99/year only!
 								</button>
 							</div>
 						</div>

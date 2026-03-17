@@ -23,7 +23,7 @@ import InterestSendPremiumPopup from "../../models/InterestSendPremiumPopup/Inte
 const OthersProfile = () => {
   const { profileId } = useParams();
   const navigate = useNavigate();
-  const { globalData } = useContext(AppContext);
+  const { globalData, setGlobalData } = useContext(AppContext);
   const [profileData, setProfileData] = useState({});
   const [isLoading, setIsLoading] = useState(!true);
   const [isInterestSent, setIsInterestSent] = useState(false);
@@ -84,12 +84,10 @@ const OthersProfile = () => {
       const shorlists = globalData?.shortlistsData?.filter(
         (item) => item.uid !== profileId
       );
-      globalData &&
-        globalData.setGlobalData &&
-        globalData.setGlobalData((prev) => ({
-          ...prev,
-          shortlistsData: shorlists,
-        }));
+      setGlobalData((prev) => ({
+        ...prev,
+        shortlistsData: shorlists,
+      }));
       setIsShortlisted(false);
     } catch (error) {
       setErrorMessage(error?.message || "An error occurred. Please try again.");

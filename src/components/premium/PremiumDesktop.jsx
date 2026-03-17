@@ -4,7 +4,7 @@ import check from "../../assets/icons/greenright.svg";
 const PremiumPlanDesktop = ({ selectedPlan, setSelectedPlan }) => {
 
     const features = [
-        ["Send interests", "Unlimited"],
+        ["Send interests", "50 per plan"],
         ["Reply to received interests / requests", true],
         ["View full profile details", true],
         ["View verified contact info (phone/ email)", true],

@@ -51,7 +51,8 @@ export default function LandingPage() {
 						</button>
 					</div>
 					<div className="hero-disclaimer">
-						3 months premium access worth <span style={{ textDecoration: "line-through", color: "#696969" }}>₹2,999</span> is unlocked at ₹0.
+						{/* 3 months premium access worth <span style={{ textDecoration: "line-through", color: "#696969" }}>₹2,999</span> is unlocked at ₹0. */}
+						1 year of premium access for ₹99 Only!
 					</div>
 					<div className="hero-disclaimer-note">
 						<span style={{ color: "#000" }}>Note:</span>{" "}
@@ -100,7 +101,7 @@ export default function LandingPage() {
 								<h4>Value for Money</h4>
 							</div>
 							<div className="card-content">
-								<p>Starts at only ₹499 per month*</p>
+								<p>Starts at only ₹99 per year*</p>
 								<p>KalyanaOne gives you everything you need, no hidden costs or expensive upgrades.</p>
 							</div>
 						</article>
@@ -110,12 +111,12 @@ export default function LandingPage() {
 				<section className="early-access" aria-labelledby="early-access-title">
 					<div className="early-card">
 						<p className="early-badge" id="early-access-title">
-							Early Member Privilege <br className="mobile-only" /> (₹0 for 3 months)✨
+							Early Member Privilege <br className="mobile-only" /> (₹99 for 1 year)✨
 						</p>
 						<p className="early-title">
 							To help early members experience<br className="desktop-only" /> the platform fully,{" "}
 							<span className="early-highlight">
-								3 months premium access worth <span className="early-strike">₹2,999</span> is unlocked at ₹0.
+								1 year of premium access worth <span className="early-strike">₹499</span> is unlocked at ₹99.
 							</span>
 						</p>
 						<ul className="early-list">
@@ -194,7 +195,7 @@ export default function LandingPage() {
 						<li>
 							2. How is KalyanaOne different from other matrimony apps?
 							<p>
-								Others charge extra for many features. KalyanaOne is simple – only ₹5999 for 1 year.
+								Others charge extra for many features. KalyanaOne is simple – only ₹99 for 1 year.
 								All features included. No hidden cost.
 							</p>
 						</li>

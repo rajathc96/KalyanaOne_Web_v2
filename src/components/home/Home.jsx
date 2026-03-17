@@ -443,103 +443,97 @@ As an early member, you can create an account and explore premium features free 
             </button>
           ))}
         </div>
-        {filteredData && filteredData.length > 0 ?
-          <div key={activeTab} className="tab-content-fade">
-            {activeTab === "joined" &&
-              (displayType === "layer" ? (
-                <NewlyJoined data={filteredData} />
-              ) : (
-                <Lists data={filteredData} />
-              ))}
-            {activeTab === "matches" &&
-              <Matches
-                data={data}
-                showFilter={showFilter}
-                setShowFilter={setShowFilter}
-                matchFilter={matchFilter}
-                setMatchFilter={(value) => handleSetFilter(value)}
-                renderableProfiles={renderableProfiles}
-                setRenderableProfiles={setRenderableProfiles}
-              />
-            }
-            {activeTab === "shortlisted" && <Shortlisted />}
-          </div>
-          :
-          activeTab === "joined" ? (
-            <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <div className="no-profiles-container">
-                <Lottie
-                  animationData={dove}
-                  loop
-                  autoplay
-                  style={{ width: 80, height: 80 }}
-                />
-                <p
-                  style={{
-                    fontWeight: "500",
-                    fontSize: 20,
-                    color: "#333",
-                    textAlign: "center",
-                    marginBottom: 12,
-                    lineHeight: 1.4,
-                  }}
-                >
-                  No {castefilters.find((f) => f.value === matchCaste)?.label || ""} Profiles Yet
-                </p>
-                <p
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 400,
-                    color: "#666",
-                    textAlign: "center",
-                    margin: "0 0 5px 0",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  We're onboarding members from the {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community
-                </p>
-                <p
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 400,
-                    color: "#666",
-                    textAlign: "center",
-                    margin: 0,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  Invite someone you know to join.
-                </p>
-
-                <button
-                  onClick={onShare}
-                  aria-label="Share this profile"
-                  style={{
-                    marginTop: 16,
-                    width: "90%",
-                    backgroundColor: "#FF025B",
-                    padding: "12px 50px",
-                    borderRadius: 25,
-                    border: "none",
-                    color: "#fff",
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                    cursor: "pointer",
-                    boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
-                    marginBottom: 12,
-                  }}
-                >
-                  Invite Now
-                </button>
-              </div>
-            </div>)
+        {/* {filteredData && filteredData.length > 0 ? */}
+        <div key={activeTab} className="tab-content-fade">
+          {(activeTab === "joined" && filteredData && filteredData.length > 0) ?
+            (displayType === "layer" ? (
+              <NewlyJoined data={filteredData} />
+            ) : (
+              <Lists data={filteredData} />
+            ))
             :
-            activeTab === "matches" && (
-              <div className='no-matches-message'>
-                No profiles match the selected filter.
+            activeTab === "joined" && (
+              <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div className="no-profiles-container">
+                  <Lottie
+                    animationData={dove}
+                    loop
+                    autoplay
+                    style={{ width: 80, height: 80 }}
+                  />
+                  <p
+                    style={{
+                      fontWeight: "500",
+                      fontSize: 20,
+                      color: "#333",
+                      textAlign: "center",
+                      marginBottom: 12,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    No {castefilters.find((f) => f.value === matchCaste)?.label || ""} Profiles Yet
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 400,
+                      color: "#666",
+                      textAlign: "center",
+                      margin: "0 0 5px 0",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    We're onboarding members from the {castefilters.find((f) => f.value === matchCaste)?.label || "this"} community
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 400,
+                      color: "#666",
+                      textAlign: "center",
+                      margin: 0,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Invite someone you know to join.
+                  </p>
+
+                  <button
+                    onClick={onShare}
+                    aria-label="Share this profile"
+                    style={{
+                      marginTop: 16,
+                      width: "90%",
+                      backgroundColor: "#FF025B",
+                      padding: "12px 50px",
+                      borderRadius: 25,
+                      border: "none",
+                      color: "#fff",
+                      fontSize: 16,
+                      letterSpacing: 0.5,
+                      cursor: "pointer",
+                      boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
+                      marginBottom: 12,
+                    }}
+                  >
+                    Invite Now
+                  </button>
+                </div>
               </div>
-            )
-        }
+            )}
+          {activeTab === "matches" &&
+            <Matches
+              data={data}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              matchFilter={matchFilter}
+              setMatchFilter={(value) => handleSetFilter(value)}
+              renderableProfiles={renderableProfiles}
+              setRenderableProfiles={setRenderableProfiles}
+            />
+          }
+          {activeTab === "shortlisted" && <Shortlisted />}
+        </div>
       </div>
       <CastePopup
         show={isCastePopupVisible}

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useCallback, useContext, useEffect, useLayoutEffect, useState, useRef } from "react";
 import { ArrowLeft, MoreHorizontal } from "react-feather";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -45,6 +45,67 @@ const OthersProfile = () => {
 
   const [isSendInterestLimitReachedModalVisible, setIsSendInterestLimitReachedModalVisible] = useState(false);
   const [isSendInterestPremiumPopupVisible, setIsSendInterestPremiumPopupVisible] = useState(false);
+
+  const handleSendInterest = async () => {
+    if (!profileId) {
+      setErrorMessage("Profile ID is required to send interest.");
+      setIsErrorPopupVisible(true);
+      return;
+    }
+
+    if (!globalData?.isPremiumUser) {
+      setIsSendInterestPremiumPopupVisible(true);
+      return;
+    }
+
+    if (globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit) {
+      setIsSendInterestLimitReachedModalVisible(true);
+      return;
+    }
+
+    setIsInterestLoading(true);
+    try {
+      const token = await clientAuth?.currentUser?.getIdToken();
+      if (!token) return;
+
+      const res = await fetch(`${API_URL}/api/user/interest/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ interestId: profileId }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        if (data?.code === "LIMIT_REACHED") {
+          await clientAuth?.currentUser?.getIdTokenResult(true);
+          await clientAuth?.currentUser?.reload();
+          setIsSendInterestLimitReachedModalVisible(true);
+          return;
+        }
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      setIsInterestSent(true);
+      if (data?.code === "DOWNGRADE") {
+        await clientAuth?.currentUser?.getIdTokenResult(true);
+        await clientAuth?.currentUser?.reload();
+      } else {
+        setGlobalData((prev) => ({
+          ...prev,
+          interestAndRequestSentCount: (prev.interestAndRequestSentCount || 0) + 1,
+        }));
+      }
+
+    } catch (error) {
+      setErrorMessage(error?.message || "An error occurred. Please try again.");
+      setIsErrorPopupVisible(true);
+    } finally {
+      setIsInterestLoading(false);
+    }
+  };
 
   const scrollToPartnerPreference = () => {
     partnerPrefRef.current?.scrollIntoView({
@@ -104,7 +165,9 @@ const OthersProfile = () => {
         const { data } = JSON.parse(cached);
         return data || [];
       }
-    } catch (error) { }
+    } catch {
+      // Intentionally ignore
+    }
     return [];
   };
 
@@ -148,7 +211,7 @@ const OthersProfile = () => {
     navigateToProfile("next");
   };
 
-  const getProfileData = async () => {
+  const getProfileData = useCallback(async () => {
     if (!profileId) {
       setErrorMessage("Profile ID is required to fetch profile data.");
       setIsErrorPopupVisible(true);
@@ -178,45 +241,45 @@ const OthersProfile = () => {
     finally {
       setIsLoading(false);
     }
-  };
+  }, [globalData?.gender, profileId]);
 
-  const getPremiumData = async () => {
+  const getPremiumData = useCallback(async () => {
     if (!profileId) return;
     const tokenResult = await clientAuth.currentUser?.getIdTokenResult();
 
-    if (isInterestSent === true) {
-      try {
-        const response = await fetch(`${API_URL}/api/user/get-premium-data`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenResult.token}`,
-          },
-          body: JSON.stringify({ profileId: profileId }),
-        });
-        const data = await response.json();
+    try {
+      const response = await fetch(`${API_URL}/api/user/get-premium-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokenResult.token}`,
+        },
+        body: JSON.stringify({ profileId: profileId }),
+      });
+      const data = await response.json();
 
-        if (response.ok) {
-          if (data.access !== undefined && data.access === false) {
-            setHoroscopeAccess(false);
-            setContactAccess(false);
-            return;
-          } else {
-            setHoroscopeAccess(data.access.horoscope);
-            setContactAccess(data.access.contact);
+      if (response.ok) {
+        if (data.access !== undefined && data.access === false) {
+          setHoroscopeAccess(false);
+          setContactAccess(false);
+          return;
+        } else {
+          setHoroscopeAccess(data.access.horoscope);
+          setContactAccess(data.access.contact);
 
-            setProfileData((prev) => ({
-              ...prev,
-              horoscopeDetails: data?.userData.horoscope,
-              contactDetails: data?.userData.contact,
-            }));
-          }
+          setProfileData((prev) => ({
+            ...prev,
+            horoscopeDetails: data?.userData?.horoscope,
+            contactDetails: data?.userData?.contact,
+          }));
         }
-      } catch (error) { }
+      }
+    } catch {
+      // Intentionally ignore
     }
-  }
+  }, [profileId]);
 
-  const checkIsInterestSent = async () => {
+  const checkIsInterestSent = useCallback(async () => {
     if (!profileId) return;
     const token = await clientAuth?.currentUser?.getIdToken();
     if (!token) return;
@@ -237,11 +300,13 @@ const OthersProfile = () => {
         setIsInterestDeclined(data.status === "declined");
       }
 
-    } catch (e) { }
+    } catch {
+      // Intentionally ignore
+    }
     finally {
       setIsInterestLoading(false);
     }
-  }
+  }, [profileId]);
 
   useEffect(() => {
     checkIsInterestSent();
@@ -278,7 +343,7 @@ const OthersProfile = () => {
             },
             body: JSON.stringify({ profileId }),
           });
-        } catch (error) {
+        } catch {
           // No-op: view count failure should not block profile view.
         }
       }, 10000);
@@ -376,22 +441,18 @@ const OthersProfile = () => {
                 profileData={profileData}
                 profileId={profileId}
                 isLoading={isLoading}
+                handleSendInterest={handleSendInterest}
                 setIsShortListRemoveModalVisible={
                   setIsShortListRemoveModalVisible
                 }
                 isInterestSent={isInterestSent}
-                setIsInterestSent={setIsInterestSent}
                 isInterestLoading={isInterestLoading}
-                setIsInterestLoading={setIsInterestLoading}
                 isInterestDeclined={isInterestDeclined}
-                setIsInterestDeclined={setIsInterestDeclined}
                 isShortlistLoading={isShortlistLoading}
                 setIsShortlistLoading={setIsShortlistLoading}
                 isShortListed={isShortListed}
                 setIsShortlisted={setIsShortlisted}
                 scrollToPartnerPreference={scrollToPartnerPreference}
-                setIsSendInterestLimitReachedModalVisible={setIsSendInterestLimitReachedModalVisible}
-                setIsSendInterestPremiumPopupVisible={setIsSendInterestPremiumPopupVisible}
               />
               {/* </div>
               <div> */}
@@ -399,10 +460,13 @@ const OthersProfile = () => {
                 profileData={profileData}
                 horoscopeAccess={horoscopeAccess}
                 contactAccess={contactAccess}
-                isPremiumUser={globalData.isPremiumUser}
+                globalData={globalData}
                 isLoading={isLoading}
                 profileId={profileId}
                 partnerPrefRef={partnerPrefRef}
+                isInterestSent={isInterestSent}
+                isInterestLoading={isInterestLoading}
+                handleSendInterest={handleSendInterest}
               />
               {/* </div> */}
             </div>

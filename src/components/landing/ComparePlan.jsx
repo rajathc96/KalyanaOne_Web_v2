@@ -16,7 +16,7 @@ export default function ComparePlan({ show, onClose }) {
         { name: "💬 Chat with matched profiles", free: false, premium: true },
         { name: "🔍 Search with advanced search filters", free: false, premium: true },
         { name: "🔮 Horoscope compatibility check", free: false, premium: true },
-        { name: "🚀 Profile boost in search results", free: false, premium: true },
+        // { name: "🚀 Profile boost in search results", free: false, premium: true },
         { name: "🔒 Privacy control settings", free: false, premium: true },
         { name: "❤️ Personalized daily matches", free: false, premium: true },
         { name: "🎧 Priority support", free: false, premium: true },

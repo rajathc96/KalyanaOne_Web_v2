@@ -9,7 +9,6 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { clientAuth } from "../firebase.js";
 import "./App.css";
 import barchartActive from "./assets/barchart-active.svg";
 import barchart from "./assets/barchart.svg";
@@ -52,7 +51,7 @@ import PrivacySettings from "./components/settings/PrivacySettings/PrivacySettin
 import ProfileVerification from "./components/settings/ProfileVerification/ProfileVerification.jsx";
 import Settings from "./components/settings/Settings";
 import RequestDataDeletion from "./components/support/RequestDataDeletion.jsx";
-import { AppProvider } from "./context/AppContext";
+import { AppProvider } from "./context/AppProvider";
 import { useAuth } from "./context/AuthContext";
 import CastePopup from "./models/CastePopup/CastePopup.jsx";
 import Invite from "./models/Invite/Invite.jsx";

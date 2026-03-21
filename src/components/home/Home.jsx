@@ -198,7 +198,9 @@ function Home() {
       };
       localStorage.setItem(DATA_CACHE_KEY, JSON.stringify(payload));
 
-    } catch (error) { }
+    } catch {
+      // Intentionally ignore fetch/cache errors and show fallback empty state.
+    }
     finally {
       setIsLoading(false);
       if (isEarlyAccessAvailable === true) setEarlyAccessPopupVisible(true);
@@ -298,7 +300,7 @@ You’re invited to join KalyanaOne, a community-based matrimony platform built 
 
 KalyanaOne focuses on genuine profiles, a simple experience, and a respectful, family-friendly approach without spam, pressure, or unwanted follow-ups.
 
-As an early member, you can create an account and explore premium features free for 3 months.
+As an early member, you can create an account and explore premium features for ₹99 per year.
 
 👉 Create your account here: https://kalyanaone.com`,
       url: `https://kalyanaone.com`,

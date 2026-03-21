@@ -8,7 +8,7 @@ const PlanDetailsPopup = ({ show, onClose }) => {
         style={{ maxWidth: '460px', width: '95%' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <PlanDetails onClose={onClose} />
+        <PlanDetails />
       </div>
     </div>
   );

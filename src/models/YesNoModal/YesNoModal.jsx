@@ -43,12 +43,12 @@ const YesNoModal = ({
         {onlyYes ?
           <p
             className="popup-sheet-text"
-            style={{ textAlign: 'center', margin: '10px 25px 25px' }}
+            style={{ textAlign: 'center', margin: '10px 25px 25px', whiteSpace: 'pre-line' }}
           >
             {data}
           </p>
           :
-          <p className="popup-sheet-text">
+          <p className="popup-sheet-text" style={{ whiteSpace: 'pre-line' }}>
             {data}
           </p>
         }

@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { ArrowLeft, MoreHorizontal } from "react-feather";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import shortlistRemove from '../../assets/icons/shortlist-remove.svg';
@@ -13,11 +12,13 @@ import Info from "./Info";
 import "./OthersProfile.css";
 import Photos from "./Photos";
 import YesNoModal from "../../models/YesNoModal/YesNoModal";
+import InterestAndRequestLimitPopup from "../../models/InterestAndRequestLimitPopup/InterestAndRequestLimitPopup";
+import InterestSendPremiumPopup from "../../models/InterestSendPremiumPopup/InterestSendPremiumPopup";
 
 const OthersProfileSingle = () => {
   const { profileId } = useParams();
   const navigate = useNavigate();
-  const { globalData } = useContext(AppContext);
+  const { globalData, setGlobalData } = useContext(AppContext);
   const [profileData, setProfileData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [horoscopeAccess, setHoroscopeAccess] = useState(false);
@@ -36,6 +37,8 @@ const OthersProfileSingle = () => {
   const partnerPrefRef = useRef(null);
   const [isErrorPopupVisible, setIsErrorPopupVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSendInterestLimitReachedModalVisible, setIsSendInterestLimitReachedModalVisible] = useState(false);
+  const [isSendInterestPremiumPopupVisible, setIsSendInterestPremiumPopupVisible] = useState(false);
 
   const scrollToPartnerPreference = () => {
     partnerPrefRef.current?.scrollIntoView({
@@ -49,6 +52,67 @@ const OthersProfileSingle = () => {
       globalData?.shortlistsData?.some((item) => item.uid === profileId)
     );
   }, [globalData, profileId]);
+
+  const handleSendInterest = async () => {
+    if (!profileId) {
+      setErrorMessage("Profile ID is required to send interest.");
+      setIsErrorPopupVisible(true);
+      return;
+    }
+
+    if (!globalData?.isPremiumUser) {
+      setIsSendInterestPremiumPopupVisible(true);
+      return;
+    }
+
+    if (globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit) {
+      setIsSendInterestLimitReachedModalVisible(true);
+      return;
+    }
+
+    setIsInterestLoading(true);
+    try {
+      const token = await clientAuth?.currentUser?.getIdToken();
+      if (!token) return;
+
+      const res = await fetch(`${API_URL}/api/user/interest/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ interestId: profileId }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        if (data?.code === "LIMIT_REACHED") {
+          await clientAuth?.currentUser?.getIdTokenResult(true);
+          await clientAuth?.currentUser?.reload();
+          setIsSendInterestLimitReachedModalVisible(true);
+          return;
+        }
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      setIsInterestSent(true);
+      if (data?.code === "DOWNGRADE") {
+        await clientAuth?.currentUser?.getIdTokenResult(true);
+        await clientAuth?.currentUser?.reload();
+      } else {
+        setGlobalData((prev) => ({
+          ...prev,
+          interestAndRequestSentCount: (prev.interestAndRequestSentCount || 0) + 1,
+        }));
+      }
+    } catch (error) {
+      setErrorMessage(error?.message || "An error occurred. Please try again.");
+      setIsErrorPopupVisible(true);
+    } finally {
+      setIsInterestLoading(false);
+    }
+  };
+  // }, [globalData?.interestAndRequestLimit, globalData?.interestAndRequestSentCount, globalData?.isPremiumUser, profileId, setGlobalData]);
 
   const handleRemoveShortlist = async () => {
     setIsShortListRemoveModalVisible(false);
@@ -75,12 +139,10 @@ const OthersProfileSingle = () => {
       const shorlists = globalData?.shortlistsData?.filter(
         (item) => item.uid !== profileId
       );
-      globalData &&
-        globalData.setGlobalData &&
-        globalData.setGlobalData((prev) => ({
-          ...prev,
-          shortlistsData: shorlists,
-        }));
+      setGlobalData((prev) => ({
+        ...prev,
+        shortlistsData: shorlists,
+      }));
       setIsShortlisted(false);
     } catch (error) {
       setErrorMessage(error?.message || "An error occurred. Please try again.");
@@ -115,7 +177,7 @@ const OthersProfileSingle = () => {
             },
             body: JSON.stringify({ profileId }),
           });
-        } catch (error) {
+        } catch {
           // No-op: view count failure should not block profile view.
         }
       }, 10000);
@@ -157,7 +219,7 @@ const OthersProfileSingle = () => {
     return () => scrollContainer?.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const getProfileData = async () => {
+  const getProfileData = useCallback(async () => {
     if (!profileId) {
       setErrorMessage("Profile ID is required to fetch profile data.");
       setIsErrorPopupVisible(true);
@@ -187,45 +249,45 @@ const OthersProfileSingle = () => {
     finally {
       setIsLoading(false);
     }
-  };
+  }, [globalData?.gender, profileId]);
 
-  const getPremiumData = async () => {
+  const getPremiumData = useCallback(async () => {
     if (!profileId) return;
     const tokenResult = await clientAuth.currentUser?.getIdTokenResult();
 
-    if (isInterestSent === true) {
-      try {
-        const response = await fetch(`${API_URL}/api/user/get-premium-data`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenResult.token}`,
-          },
-          body: JSON.stringify({ profileId: profileId }),
-        });
-        const data = await response.json();
+    try {
+      const response = await fetch(`${API_URL}/api/user/get-premium-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokenResult.token}`,
+        },
+        body: JSON.stringify({ profileId: profileId }),
+      });
+      const data = await response.json();
 
-        if (response.ok) {
-          if (data.access !== undefined && data.access === false) {
-            setHoroscopeAccess(false);
-            setContactAccess(false);
-            return;
-          } else {
-            setHoroscopeAccess(data.access.horoscope);
-            setContactAccess(data.access.contact);
+      if (response.ok) {
+        if (data.access !== undefined && data.access === false) {
+          setHoroscopeAccess(false);
+          setContactAccess(false);
+          return;
+        } else {
+          setHoroscopeAccess(data.access.horoscope);
+          setContactAccess(data.access.contact);
 
-            setProfileData((prev) => ({
-              ...prev,
-              horoscopeDetails: data?.userData.horoscope,
-              contactDetails: data?.userData.contact,
-            }));
-          }
+          setProfileData((prev) => ({
+            ...prev,
+            horoscopeDetails: data?.userData.horoscope,
+            contactDetails: data?.userData.contact,
+          }));
         }
-      } catch (error) { }
+      }
+    } catch {
+      // No-op: failure to fetch premium data should not block profile view.
     }
-  }
+  }, [profileId]);
 
-  const checkIsInterestSent = async () => {
+  const checkIsInterestSent = useCallback(async () => {
     if (!profileId) return;
     const token = await clientAuth?.currentUser?.getIdToken();
     if (!token) return;
@@ -246,22 +308,24 @@ const OthersProfileSingle = () => {
         setIsInterestDeclined(data.status === "declined");
       }
 
-    } catch (e) { }
+    } catch {
+      // No-op: failure to check interest status should not block profile view.
+    }
     finally {
       setIsInterestLoading(false);
     }
-  }
+  }, [profileId]);
 
   useEffect(() => {
     checkIsInterestSent();
     getProfileData();
-  }, [profileId]);
+  }, [checkIsInterestSent, getProfileData]);
 
   useEffect(() => {
     if (isInterestSent === true) {
       getPremiumData();
     }
-  }, [isInterestSent]);
+  }, [getPremiumData, isInterestSent]);
 
   return (
     <div className="others-profile single">
@@ -311,11 +375,11 @@ const OthersProfileSingle = () => {
                 profileData={profileData}
                 profileId={profileId}
                 isLoading={isLoading}
+                handleSendInterest={handleSendInterest}
                 setIsShortListRemoveModalVisible={
                   setIsShortListRemoveModalVisible
                 }
                 isInterestSent={isInterestSent}
-                setIsInterestSent={setIsInterestSent}
                 isInterestLoading={isInterestLoading}
                 isInterestDeclined={isInterestDeclined}
                 isShortlistLoading={isShortlistLoading}
@@ -330,10 +394,13 @@ const OthersProfileSingle = () => {
                 profileData={profileData}
                 horoscopeAccess={horoscopeAccess}
                 contactAccess={contactAccess}
-                isPremiumUser={globalData.isPremiumUser}
+                globalData={globalData}
                 isLoading={isLoading}
                 profileId={profileId}
                 partnerPrefRef={partnerPrefRef}
+                isInterestSent={isInterestSent}
+                isInterestLoading={isInterestLoading}
+                handleSendInterest={handleSendInterest}
               />
               {/* </div> */}
             </div>
@@ -364,6 +431,17 @@ const OthersProfileSingle = () => {
         data={errorMessage}
         buttonText="Ok"
 
+      />
+
+      <InterestAndRequestLimitPopup
+        show={isSendInterestLimitReachedModalVisible}
+        onClose={() => setIsSendInterestLimitReachedModalVisible(false)}
+        type="interests"
+      />
+
+      <InterestSendPremiumPopup
+        show={isSendInterestPremiumPopupVisible}
+        onClose={() => setIsSendInterestPremiumPopupVisible(false)}
       />
     </div>
   );

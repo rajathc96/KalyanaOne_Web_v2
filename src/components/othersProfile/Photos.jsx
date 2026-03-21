@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { toast } from 'react-toastify';
 import API_URL from '../../../config';
 import { clientAuth } from '../../../firebase';
 import shortlistImg from '../../assets/icons/check_circle.svg';
@@ -24,69 +23,26 @@ const Photos = ({
   profileData,
   profileId,
   isLoading,
+  handleSendInterest,
   setIsShortListRemoveModalVisible,
   isShortlistLoading,
   setIsShortlistLoading,
   isInterestSent,
-  setIsInterestSent,
   isInterestLoading,
   isShortListed,
   setIsShortlisted,
   isInterestDeclined,
   scrollToPartnerPreference,
-  setIsSendInterestPremiumPopupVisible,
-  setIsSendInterestLimitReachedModalVisible,
   admin = false
 }) => {
   const navigate = useNavigate();
-  const { globalData, setGlobalData } = useContext(AppContext);
-  const [isInterestSending, setIsInterestSending] = useState(false);
+  const { setGlobalData } = useContext(AppContext);
   const [name, setName] = useState("");
   const [isVerifiedPopupVisible, setIsVerifiedPopupVisible] = useState(false);
   const [isPremiumPopupVisible, setIsPremiumPopupVisible] = useState(false);
   const [isErrorPopupVisible, setIsErrorPopupVisible] = useState(false);
   const [errorHeading, setErrorHeading] = useState("Error");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleSendInterest = async () => {
-    if (!profileId) {
-      setErrorMessage("Profile ID is required to send interest.");
-      setIsErrorPopupVisible(true);
-      return;
-    }
-
-    if (!globalData?.isPremiumUser) {
-      return setIsSendInterestPremiumPopupVisible(true);
-    }
-
-    if (globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit) {
-      return setIsSendInterestLimitReachedModalVisible(true);
-    }
-
-    setIsInterestSending(true);
-    try {
-      const token = await clientAuth?.currentUser?.getIdToken();
-      if (!token) return;
-      const res = await fetch(`${API_URL}/api/user/interest/send`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ interestId: profileId }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Something went wrong. Please try again.");
-      }
-      setIsInterestSent(true);
-    } catch (error) {
-      setErrorMessage(error?.message || "An error occurred. Please try again.");
-      setIsErrorPopupVisible(true);
-    } finally {
-      setIsInterestSending(false);
-    }
-  }
 
   const handleAddShortlist = async () => {
     if (!profileId) {
@@ -213,13 +169,13 @@ const Photos = ({
           </div>
 
           {!admin && <div className="photos-footer">
-            <button className="interest-btn" disabled={isInterestSending || isInterestLoading} onClick={isInterestSent || isInterestSending || isInterestLoading ? null : handleSendInterest}>
+            <button className="interest-btn" disabled={isInterestLoading} onClick={isInterestSent || isInterestLoading ? null : handleSendInterest}>
               <img
                 src={isInterestSent ? interestSentImg : sendInterestImg}
                 alt="interest"
                 className="btn-icon"
               />
-              <span>{isInterestSending || isInterestLoading ? <UpdateLoader /> : isInterestSent ? isInterestDeclined ? 'Interest declined' : 'Interest sent' : 'Send interest'}</span>
+              <span>{isInterestLoading ? <UpdateLoader /> : isInterestSent ? isInterestDeclined ? 'Interest declined' : 'Interest sent' : 'Send interest'}</span>
             </button>
 
             <button className="shortlist-btn" onClick={isShortListed ? () => setIsShortListRemoveModalVisible(true) : handleAddShortlist}>

@@ -37,7 +37,7 @@ function calculateRemainingDays(expiryDate) {
   return daysRemaining >= 0 ? daysRemaining : 0;
 }
 
-const PlanDetails = ({ onClose }) => {
+const PlanDetails = () => {
   const { globalData } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -57,10 +57,9 @@ const PlanDetails = ({ onClose }) => {
         ? formatDateShortMonth(tokenResult.claims.premiumExpiry)
         : "N/A";
       setPremiumEndDate(formattedEndDate);
-
       setDaysRemaining(calculateRemainingDays(tokenResult?.claims?.premiumExpiry));
 
-    } catch (error) {
+    } catch {
       setPremiumStartDate("N/A");
       setPremiumEndDate("N/A");
     }
@@ -152,19 +151,25 @@ const PlanDetails = ({ onClose }) => {
                 </>
               }
             </div>
-          </div>
 
-          <div className="verification-section">
-            {globalData.isUserVerified && globalData.isUserSelfieVerified && <div className="verified-section">
-              <img src={verifiedIcon} alt="verified" className="verified-icon" />
-              <span className="verified-text">Verified Profile</span>
-            </div>}
-            {globalData.isPremiumUser && <div className="verified-section">
-              <img src={premiumIcon} alt="Premium" className="verified-icon" />
-              <span className="verified-text">Premium Profile</span>
-            </div>}
+            <div className="verification-section">
+              {globalData.isUserVerified && globalData.isUserSelfieVerified && <div className="verified-section">
+                <img src={verifiedIcon} alt="verified" className="verified-icon" />
+                <span className="verified-text">Verified Profile</span>
+              </div>}
+              {globalData.isPremiumUser && <div className="verified-section">
+                <img src={premiumIcon} alt="Premium" className="verified-icon" />
+                <span className="verified-text">Premium Profile</span>
+              </div>}
+            </div>
           </div>
         </div>
+
+        {globalData.isPremiumUser &&
+          <span className="plan-limit-info">
+            Send up to 50 interests/requests within 1 year. Renewal is required after reaching the limit or expiry, whichever comes first.
+          </span>
+        }
         {!globalData.isPremiumUser &&
           <button className="upgrade-btn" onClick={() => navigate("/premium")}>Upgrade to premium</button>
         }

@@ -69,8 +69,15 @@
 .verification-section {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   gap: 16px;
+  padding: 0 16px;
+}
+
+.plan-limit-info {
+  display: block;
+  font-size: 8px;
+  line-height: 8px;
+  padding: 0 16px;
 }
 
 @media (max-width: 600px) {
@@ -93,4 +100,13 @@
   .plan-info-section {
     padding: 12px 10px;
   }
+
+  .verification-section {
+    padding: 0 10px;
+  }
+
+  .plan-limit-info {
+    padding: 0 10px 5px;
+  }
+
 }

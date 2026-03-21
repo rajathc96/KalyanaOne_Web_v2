@@ -6,7 +6,6 @@ import googlePlayBadge from "../../assets/images/google-play-badge.svg";
 import instagramLogo from "../../assets/images/instagram.svg";
 import kalyanaLogo from "../../assets/images/kalyana-logo.svg";
 import linkedinLogo from "../../assets/images/linkedin.svg";
-import prelaunchBadge from "../../assets/images/prelaunch-badge.svg";
 import qr from "../../assets/images/KalyanaOne_App_DOwnload_qr.svg";
 import secureTrusted from "../../assets/images/secure-trusted.svg";
 import valueMoney from "../../assets/images/value-money.svg";

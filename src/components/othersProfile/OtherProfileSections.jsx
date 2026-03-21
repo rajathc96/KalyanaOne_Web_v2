@@ -102,7 +102,7 @@ function convertInchesToHeight(inches) {
   return `${feet}' ${remainingInches}"`;
 }
 
-export function getSections(profileData, isPremiumUser, horoscopeAccess, contactAccess) {
+export function getSections(profileData, horoscopeAccess, contactAccess) {
   return [
     {
       title: "Basic details",
@@ -202,17 +202,14 @@ export function getSections(profileData, isPremiumUser, horoscopeAccess, contact
       title: "Horoscope details",
       content: horoscopeDetailsOrder.map((key) => {
         const value = profileData?.horoscopeDetails?.[key];
-        const displayValue =
-          isPremiumUser && horoscopeAccess
-            ? value || "Not provided"
-            : "•••••••••";
+        const displayValue = horoscopeAccess ? value || "Not provided" : "•••••••••";
 
         return {
           label: horoscopeFieldLabels[key] || key,
           value: displayValue,
         };
       }),
-      encrypted: !isPremiumUser || !horoscopeAccess,
+      encrypted: !horoscopeAccess,
     },
     {
       title: "Family details",
@@ -229,19 +226,18 @@ export function getSections(profileData, isPremiumUser, horoscopeAccess, contact
       title: "Contact details",
       content: Object.keys(contactFieldLabels).map((key) => {
         const value = profileData?.contactDetails?.[key];
-        const displayValue =
-          isPremiumUser && contactAccess ? value || "Not specified" : "•••••••••";
+        const displayValue = contactAccess ? value || "Not specified" : "•••••••••";
 
         return {
           label: contactFieldLabels[key],
           value: displayValue,
         };
       }),
-      encrypted: !isPremiumUser || !contactAccess,
+      encrypted: !contactAccess,
     },
     {
       title: "Partner preferences",
-      content: Object.entries(partnerFieldLabels).map(([key, label]) => {
+      content: Object.entries(partnerFieldLabels).map(([key, label]) => { // eslint-disable-line no-unused-vars
         const renderFn = partnerFieldRender[key] || partnerFieldRender.default;
 
         const value =

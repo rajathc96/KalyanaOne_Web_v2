@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import arrowIcon from "../../assets/icons/chevron-right.svg";
 import lockIcon from "../../assets/icons/lock.svg";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { getSections } from "./OtherProfileSections";
 import RequestAccessPopup from "../../models/RequestAccessPopup/RequestAccessPopup";
 import InterestAndRequestLimitPopup from "../../models/InterestAndRequestLimitPopup/InterestAndRequestLimitPopup";
@@ -11,10 +11,13 @@ const Info = ({
   profileData,
   horoscopeAccess,
   contactAccess,
-  isPremiumUser,
+  globalData,
   isLoading,
   profileId,
   partnerPrefRef,
+  isInterestSent,
+  isInterestLoading,
+  handleSendInterest,
 }) => {
   const [expandedSections, setExpandedSections] = useState({
     about: true,
@@ -35,7 +38,7 @@ const Info = ({
     }));
   };
 
-  const sections = getSections(profileData, isPremiumUser, horoscopeAccess, contactAccess);
+  const sections = getSections(profileData, horoscopeAccess, contactAccess);
 
   const [isErrorPopupVisible, setIsErrorPopupVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -153,17 +156,28 @@ const Info = ({
         onClose={() => setIsRequestAccessModalVisible(false)}
         img={lockIcon}
         heading={`${requestedSection === 'horoscope' ? 'Horoscope' : 'Contact'} is locked`}
-        data={isPremiumUser ?
+        data={isInterestSent ?
           `${profileData.name?.split(' ')[0]} has kept their ${requestedSection === 'horoscope' ? 'horoscope' : 'contact'} details private. You can request access to view it`
           :
-          `Upgrade your plan to see ${profileData?.name?.split(' ')[0]}'s ${requestedSection === 'horoscope' ? 'horoscope' : 'contact'} details`}
+          globalData?.interestAndRequestLimit > 0 && globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit ?
+            `You have reached your limit for sending interests and requests. Please renew your plan to send more requests.`
+            :
+            globalData?.isPremiumUser === true ?
+              `Send interest to ${profileData.name?.split(' ')[0].toUpperCase()} to view their ${requestedSection} details`
+              :
+              `Upgrade your plan to view ${profileData?.name?.split(' ')[0]}'s\n${requestedSection === 'horoscope' ? 'horoscope' : 'contact'} details`
+        }
         requestType={requestedSection}
         profileId={profileId}
-        isPremiumUser={isPremiumUser}
         setIsSendRequestLimitReachedModalVisible={setIsSendRequestLimitReachedModalVisible}
         setIsSuccessPopupVisible={setIsSuccessPopupVisible}
         setIsErrorPopupVisible={setIsErrorPopupVisible}
         setErrorMessage={setErrorMessage}
+        showUpgradeButton={globalData?.isPremiumUser !== true}
+        isInterestSent={isInterestSent}
+        isInterestLoading={isInterestLoading}
+        onSendInterest={handleSendInterest}
+        renew={globalData?.interestAndRequestLimit > 0 && globalData?.interestAndRequestSentCount >= globalData?.interestAndRequestLimit}
       />
 
       <InterestAndRequestLimitPopup

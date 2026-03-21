@@ -1,12 +1,9 @@
-import { useContext } from "react";
 import giftHeart from "../../assets/emojis/gift-heart.json";
 import Lottie from "lottie-react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../context/AppContext";
 
 const InterestSendPremiumPopup = ({ show, onClose }) => {
     const navigate = useNavigate();
-    const { globalData } = useContext(AppContext);
     const isSmall = window.innerWidth < 400;
 
     return (

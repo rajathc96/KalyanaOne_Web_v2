@@ -1,10 +1,8 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import UpdateLoader from "../UpdateLoader/UpdateLoader";
-import YesNoModal from "../YesNoModal/YesNoModal";
 import { AppContext } from "../../context/AppContext";
 
 const RequestAccessPopup = ({
@@ -15,15 +13,25 @@ const RequestAccessPopup = ({
   data,
   requestType,
   profileId,
-  isPremiumUser,
   setIsSendRequestLimitReachedModalVisible,
   setIsSuccessPopupVisible,
   setIsErrorPopupVisible,
-  setErrorMessage
+  setErrorMessage,
+  showUpgradeButton,
+  renew,
+  isInterestSent,
+  isInterestLoading,
+  onSendInterest,
 }) => {
   const navigate = useNavigate();
   const { globalData } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleSendInterestClick = async () => {
+    if (typeof onSendInterest !== "function") return;
+    await onSendInterest();
+    onClose();
+  };
 
   const handleRequest = async () => {
     if (isLoading) return;
@@ -53,9 +61,18 @@ const RequestAccessPopup = ({
         });
 
         const data = await response.json();
-        if (!response.ok)
-          throw new Error(data.error || "Failed to send access request.");
+        if (!response.ok) {
+          if (data?.code === "LIMIT_REACHED") {
+            await clientAuth?.currentUser?.getIdTokenResult(true);
+            await clientAuth?.currentUser?.reload();
+          }
+          throw new Error(data?.error || "Failed to send access request.");
+        }
 
+        if (data?.code === "DOWNGRADE") {
+          await clientAuth?.currentUser?.getIdTokenResult(true);
+          await clientAuth?.currentUser?.reload();
+        }
         setIsSuccessPopupVisible(true);
       }
     }
@@ -79,24 +96,25 @@ const RequestAccessPopup = ({
           {img && <img src={img} alt="img" className="popup-sheet-image" style={{ alignItems: 'center' }} />}
         </div>
         <p className="popup-sheet-title" style={{ textAlign: 'center', fontWeight: 'bold' }}>{heading}</p>
-        <p className="popup-sheet-text" style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <p className="popup-sheet-text" style={{ textAlign: 'center', marginBottom: '20px', whiteSpace: 'pre-line' }}>
           {data}
         </p>
-        {isPremiumUser ?
+        {!showUpgradeButton ?
           <button
-            onClick={handleRequest}
+            onClick={isInterestSent ? handleRequest : handleSendInterestClick}
             className="popup-sheet-yes-btn"
             style={{ width: '100%', borderRadius: '20px', fontSize: '16px' }}
-            disabled={isLoading}
+            disabled={isLoading || isInterestLoading}
           >
-            {isLoading ?
+            {isLoading || isInterestLoading ?
               <UpdateLoader size={19} color="#fff" />
               :
-              requestType === 'horoscope' ? 'Request Horoscope' : 'Request Contact'}
+              !isInterestSent ? 'Send Interest' :
+                requestType === 'horoscope' ? 'Request Horoscope' : 'Request Contact'}
           </button>
           :
-          <button className="upgrade-btn" onClick={() => navigate('/premium')}>
-            Upgrade to Premium
+          <button className="upgrade-btn" style={{ marginBottom: 0 }} onClick={() => navigate('/premium')}>
+            {renew ? 'Renew at ₹99 Only!' : 'Upgrade at ₹99 Only!'}
           </button>
         }
       </div>

@@ -855,7 +855,8 @@
         }
 
         .plan-features {
-            margin-bottom: 0px;
+            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
         .app-card {

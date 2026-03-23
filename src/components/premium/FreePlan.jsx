@@ -9,15 +9,15 @@ const FreePlan = ({ selectedPlan, setSelectedPlan }) => {
 
   const features = [
     ["Create & complete profile", true],
-    ["Send interests", false],
+    ["Send interests / requests", false],
     ["Receive interests", true],
     ["View partial profile details", true],
     ["View verified contact info (phone/email)", false],
     ["Chat with matched profiles", false],
     ["Search with advanced search filters", false],
     ["Horoscope compatibility check", false],
-    ["Profile boost in search results", false],
-    ["See who viewed your profile", false],
+    // ["Profile boost in search results", false],
+    // ["See who viewed your profile", false],
     ["Privacy control settings", false],
     ["Personalized daily matches", false],
     ["Priority support*", false],

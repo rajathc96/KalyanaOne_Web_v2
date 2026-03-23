@@ -1,5 +1,4 @@
 import Lottie from "lottie-react";
-import UpdateLoader from "./UpdateLoader/UpdateLoader";
 import bouquet from "../assets/emojis/bouquet.json";
 import { useNavigate } from "react-router-dom";
 
@@ -53,7 +52,7 @@ const EarlyAccess = ({
         >
           We’re offering early members<br />
           <span style={{ color: '#000', fontWeight: '500' }}>
-            1 year of premium access for ₹99 Only!
+            Upgrade to premium access for ₹99 Only!
           </span>
         </p>
         <ul className="early-list" style={{ letterSpacing: '-0.5px' }}>

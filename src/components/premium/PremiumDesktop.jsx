@@ -1,18 +1,18 @@
-import { useState } from "react";
 import check from "../../assets/icons/greenright.svg";
+import cross from "../../assets/icons/redcancel.svg";
 
 const PremiumPlanDesktop = ({ selectedPlan, setSelectedPlan }) => {
 
     const features = [
-        ["Send interests", "50 per plan"],
+        ["Send interests / requests", "50 per plan"],
         ["Reply to received interests / requests", true],
         ["View full profile details", true],
         ["View verified contact info (phone/ email)", true],
         ["Chat with premium profiles", true],
         ["Advanced search filters (income, education, horoscope etc.,)", true],
         ["Horoscope compatibility check", true],
-        ["Profile boost in search results (coming soon)", true],
-        ["See who viewed your profile", true],
+        // ["Profile boost in search results (coming soon)", true],
+        // ["See who viewed your profile", true],
         ["Privacy control settings", true],
         ["Personalized daily matches", true],
         ["Priority support*", true],

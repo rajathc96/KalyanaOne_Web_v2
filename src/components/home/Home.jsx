@@ -309,9 +309,15 @@ As an early member, you can create an account and explore premium features for â
     if (navigator.canShare) {
       try {
         await navigator.share(shareData);
-      } catch (error) {
-        setErrorMessage("Sharing failed: " + error.message);
-        setErrorPopupVisible(true);
+      } catch {
+        const fullMessage = `${shareData.text}\n${shareData.url}`;
+        try {
+          await navigator.clipboard.writeText(fullMessage);
+          toast.info("Profile message copied to clipboard!");
+        } catch (error) {
+          setErrorMessage("Sharing failed: " + error.message);
+          setErrorPopupVisible(true);
+        }
       }
     } else {
       const fullMessage = `${shareData.text}\n${shareData.url}`;

@@ -3,16 +3,9 @@ import API_URL from "../../../config";
 import { clientAuth } from "../../../firebase";
 import check from "../../assets/icons/greenright.svg";
 import limited from "../../assets/images/limited1000.svg";
-import redMark from "../../assets/icons/redmark.svg";
 import UpdateLoader from "../../models/UpdateLoader/UpdateLoader";
 import YesNoModal from "../../models/YesNoModal/YesNoModal";
 import { useNavigate } from "react-router-dom";
-
-const plans = [
-  { duration: "3 Months", price: "₹2999" },
-  { duration: "6 Months", originalPrice: "₹6000", price: "₹4499", save25: true },
-  { duration: "12 Months", originalPrice: "₹12000", price: "₹5988", save50: true },
-];
 
 const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
 
@@ -196,6 +189,9 @@ const PremiumPlan = ({ setShowPremiumPlanSheet, globalData }) => {
               {isLoading ? <UpdateLoader /> : "Get Premium – ₹99/year only!"}
             </button>
           </div>
+          <span className="plan-limit-info" style={{ marginTop: "10px", fontSize: "11px", color: "#696969" }}>
+            Send up to 50 interests/requests within 1 year. Renewal is required after reaching the limit or expiry, whichever comes first.
+          </span>
         </div>
       </div>
 

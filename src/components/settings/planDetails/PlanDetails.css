@@ -75,10 +75,16 @@
 
 .plan-limit-info {
   display: block;
-  font-size: 8px;
-  font-weight: 300;
-  line-height: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  /* line-height: px; */
   padding: 0 16px;
+  color: #888
+}
+
+.plan .plan-limit-info {
+  line-height: normal;
+  padding: 0;
 }
 
 @media (max-width: 600px) {

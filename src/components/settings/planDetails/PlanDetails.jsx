@@ -72,7 +72,7 @@ const PlanDetails = () => {
 
   return (
     <>
-      <div className="plan-details-content">
+      <div className="plan-details-content" style={{ margin: 0 }}>
         <div>
           <div className="profile-card-plan">
             <div className="edit-profile-box-two">
@@ -167,7 +167,7 @@ const PlanDetails = () => {
 
         {globalData.isPremiumUser &&
           <span className="plan-limit-info">
-            Send up to 50 interests/requests within 1 year. Renewal is required after reaching the limit or expiry, whichever comes first.
+            Send up to 50 interests/requests within 1 year. <br className="desktop-only" /> Renewal is required after reaching the limit or expiry, whichever comes first.
           </span>
         }
         {!globalData.isPremiumUser &&

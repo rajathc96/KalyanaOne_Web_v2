@@ -287,7 +287,7 @@ const OthersProfileSingle = () => {
     }
   }, [profileId]);
 
-  const checkIsInterestSent = useCallback(async () => {
+  const checkIsInterestSent = async () => {
     if (!profileId) return;
     const token = await clientAuth?.currentUser?.getIdToken();
     if (!token) return;
@@ -314,18 +314,18 @@ const OthersProfileSingle = () => {
     finally {
       setIsInterestLoading(false);
     }
-  }, [profileId]);
+  }
 
   useEffect(() => {
     checkIsInterestSent();
     getProfileData();
-  }, [checkIsInterestSent, getProfileData]);
+  }, [profileId]);
 
   useEffect(() => {
     if (isInterestSent === true) {
       getPremiumData();
     }
-  }, [getPremiumData, isInterestSent]);
+  }, [isInterestSent]);
 
   return (
     <div className="others-profile single">

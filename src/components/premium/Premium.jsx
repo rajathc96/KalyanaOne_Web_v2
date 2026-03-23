@@ -5,8 +5,6 @@ import FreePlan from "./FreePlan";
 import "./Premium.css";
 import PremiumPlan from "./PremiumPlan";
 import PremiumPlanDesktop from "./PremiumDesktop";
-import { ArrowLeft } from "react-feather";
-import { useNavigate } from "react-router-dom";
 // import backIcon from "../../assets/icons/back.svg";
 
 const Premium = () => {

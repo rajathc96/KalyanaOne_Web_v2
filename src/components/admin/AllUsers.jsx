@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API_URL from "../../../config.js";
 import { clientAuth } from "../../../firebase.js";
@@ -20,7 +19,6 @@ const tabs = [
 ];
 
 function AllUsers() {
-  const navigate = useNavigate();
   const contentRef = useRef(null);
 
   const [data, setData] = useState([]);
@@ -147,6 +145,18 @@ function AllUsers() {
     return () => window.removeEventListener("resize", updateUnderline);
   }, [activeTab]);
 
+  const copyInviteText = async (message) => {
+    if (!window.isSecureContext) {
+      throw new Error("Clipboard access requires HTTPS.");
+    }
+
+    if (!navigator?.clipboard?.writeText) {
+      throw new Error("Clipboard is not supported in this browser.");
+    }
+
+    await navigator.clipboard.writeText(message);
+  };
+
   const onShare = async () => {
     const shareData = {
       title: "KalyanaOne Invitation",
@@ -156,30 +166,50 @@ You’re invited to join KalyanaOne, a community-based matrimony platform built 
 
 KalyanaOne focuses on genuine profiles, a simple experience, and a respectful, family-friendly approach without spam, pressure, or unwanted follow-ups.
 
-As an early member, you can create an account and explore premium features at ₹99 for one year!
+As an early member, you can create an account and explore premium features for ₹99 per year.
 
 👉 Create your account here: https://kalyanaone.com`,
       url: `https://kalyanaone.com`,
     };
 
-    if (navigator.canShare) {
+    const fullMessage = `${shareData.text}\n${shareData.url}`;
+    const isWebShareSupported = typeof navigator?.share === "function";
+    const canSharePayload =
+      typeof navigator?.canShare === "function"
+        ? navigator.canShare({
+          title: shareData.title,
+          text: shareData.text,
+          url: shareData.url,
+        })
+        : true;
+
+    if (isWebShareSupported && canSharePayload) {
       try {
         await navigator.share(shareData);
-      } catch (error) {
-        setErrorMessage("Sharing failed: " + error.message);
-        setErrorPopupVisible(true);
+      } catch (shareError) {
+        if (shareError?.name === "AbortError") {
+          return;
+        }
+
+        try {
+          await copyInviteText(fullMessage);
+          toast.success("Invite Link copied!");
+        } catch (error) {
+          setErrorMessage("Sharing failed: " + error.message);
+          setErrorPopupVisible(true);
+        }
       }
     } else {
-      const fullMessage = `${shareData.text}\n${shareData.url}`;
       try {
-        await navigator.clipboard.writeText(fullMessage);
-        toast.info("Profile message copied to clipboard!");
+        await copyInviteText(fullMessage);
+          toast.success("Invite Link copied!");
       } catch (error) {
         setErrorMessage("Could not copy message: " + error.message);
         setErrorPopupVisible(true);
       }
     }
   };
+
 
   return (
     <>

@@ -147,13 +147,17 @@ View full profile on KalyanaOne 👇
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (error) { }
+      } catch {
+        // User cancelled the share or an error occurred
+      }
     } else {
       const fullMessage = `${shareData.text}\n${shareData.url}`;
       try {
         await navigator.clipboard.writeText(fullMessage);
         toast.info("Profile message copied to clipboard!");
-      } catch (error) { }
+      } catch {
+        // fallback for older browsers
+      }
     }
   };
 

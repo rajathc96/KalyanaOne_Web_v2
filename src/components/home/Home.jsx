@@ -291,6 +291,18 @@ function Home() {
     }
   }
 
+  const copyInviteText = async (message) => {
+    if (!window.isSecureContext) {
+      throw new Error("Clipboard access requires HTTPS.");
+    }
+
+    if (!navigator?.clipboard?.writeText) {
+      throw new Error("Clipboard is not supported in this browser.");
+    }
+
+    await navigator.clipboard.writeText(message);
+  };
+
   const onShare = async () => {
     const shareData = {
       title: "KalyanaOne Invitation",
@@ -306,24 +318,34 @@ As an early member, you can create an account and explore premium features for â
       url: `https://kalyanaone.com`,
     };
 
-    if (navigator.canShare) {
+    const fullMessage = `${shareData.text}\n${shareData.url}`;
+    const isWebShareSupported = typeof navigator?.share === "function";
+    const canSharePayload =
+      typeof navigator?.canShare === "function"
+        ? navigator.canShare({
+          title: shareData.title,
+          text: shareData.text,
+          url: shareData.url,
+        })
+        : true;
+
+    if (isWebShareSupported && canSharePayload) {
       try {
         await navigator.share(shareData);
-      } catch {
-        const fullMessage = `${shareData.text}\n${shareData.url}`;
+      } catch (shareError) {
+        if (shareError?.name === "AbortError") return;
         try {
-          await navigator.clipboard.writeText(fullMessage);
-          toast.info("Profile message copied to clipboard!");
+          await copyInviteText(fullMessage);
+          toast.success("Invite Link copied!");
         } catch (error) {
           setErrorMessage("Sharing failed: " + error.message);
           setErrorPopupVisible(true);
         }
       }
     } else {
-      const fullMessage = `${shareData.text}\n${shareData.url}`;
       try {
-        await navigator.clipboard.writeText(fullMessage);
-        toast.info("Profile message copied to clipboard!");
+        await copyInviteText(fullMessage);
+        toast.success("Invite Link copied!");
       } catch (error) {
         setErrorMessage("Could not copy message: " + error.message);
         setErrorPopupVisible(true);

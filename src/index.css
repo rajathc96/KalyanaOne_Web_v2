@@ -21,3 +21,40 @@
   font-style: normal;
   font-display: swap;
 }
+
+.Toastify__toast-container--bottom-center {
+  bottom: 72px;
+  width: min(92vw, 620px);
+}
+
+.ko-short-toast {
+  min-height: 64px;
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.ko-short-toast-body {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+@media (max-width: 768px) {
+  .Toastify__toast-container--top-center {
+    top: 64px;
+    width: 92vw;
+  }
+
+  .ko-short-toast {
+    min-height: 58px;
+    border-radius: 14px;
+    padding: 8px 14px;
+  }
+
+  .ko-short-toast-body {
+    font-size: 16px;
+  }
+}

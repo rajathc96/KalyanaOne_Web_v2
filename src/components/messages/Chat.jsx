@@ -100,11 +100,10 @@ const Chat = ({
   }, [chatId]);
 
   const { globalData } = useContext(AppContext);
-  const [userId, setUserId] = useState(clientAuth?.currentUser?.uid || "");
+  const [userId] = useState(clientAuth?.currentUser?.uid || "");
   const [profileId, setProfileId] = useState("");
   const [isOnline, setIsOnline] = useState(false);
   const [lastSeen, setLastSeen] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [isVerifiedPopupVisible, setIsVerifiedPopupVisible] = useState(false);
 
   const [isMessagePremiumVisible, setIsMessagePremiumVisible] = useState(
@@ -146,7 +145,6 @@ const Chat = ({
   useEffect(() => {
     const messagesWithType = getProcessedMessages();
     setProcessedMessages(messagesWithType);
-    setIsLoading(false);
   }, [messages]);
 
   const bottomRef = useRef(null);
@@ -195,7 +193,9 @@ const Chat = ({
         toast.error(data.error || "Failed to fetch profile data.");
         return;
       }
-    } catch (err) { }
+    } catch {
+      // Silent catch, maybe show default data or toast
+    }
   };
 
   useEffect(() => {
@@ -250,7 +250,7 @@ const Chat = ({
             : msg
         )
       );
-    } catch (err) {
+    } catch {
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
           msg.id === localId ? { ...msg, status: "failed" } : msg

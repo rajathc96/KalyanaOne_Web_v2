@@ -52,7 +52,7 @@ const EarlyAccess = ({
         >
           We’re offering early members<br />
           <span style={{ color: '#000', fontWeight: '500' }}>
-            Upgrade to premium access for ₹99 Only!
+            Upgrade to premium at ₹99 Only!
           </span>
         </p>
         <ul className="early-list" style={{ letterSpacing: '-0.5px' }}>

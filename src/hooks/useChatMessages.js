@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import API_URL from "../../config";
 import { clientAuth, db } from "../../firebase";
 
-const useChatMessages = (chatId, setMessages, setIsOnline, setLastSeen, setIsTyping, setName, setProfilePic) => {
+const useChatMessages = (chatId, setMessages, setIsOnline, setLastSeen, setIsTyping) => {
 
   useEffect(() => {
     if (!clientAuth?.currentUser) return;

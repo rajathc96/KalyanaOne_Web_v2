@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API_URL from "../../../config";
 import globeIcon from "../../assets/icons/globe.svg";
@@ -7,7 +6,6 @@ import UpdateLoader from "../../models/UpdateLoader/UpdateLoader";
 import YesNoModal from "../../models/YesNoModal/YesNoModal";
 
 function RequestDataDeletion() {
-	const navigate = useNavigate();
 	const phoneFormat = /^[6-9][0-9]{9}$/;
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [userId, setUserId] = useState("");
@@ -64,7 +62,9 @@ function RequestDataDeletion() {
 
 	const startTimer = (seconds = 60) => {
 		// clear any existing interval and start a fresh one
-		try { clearInterval(timerRef.current); } catch (e) { }
+		try { clearInterval(timerRef.current); } catch {
+			// Silent catch, if timerRef.current is not a valid interval ID
+		}
 		timerRef.current = null;
 		setTimer(seconds);
 		setIsResendDisabled(true);
@@ -88,8 +88,12 @@ function RequestDataDeletion() {
 
 	const handleSendOtpToMobile = async (resend = false) => {
 		if (resend && isResendDisabled) return;
-		if (!phoneNumber || !userId)
-			return toast.error("Please fill all the details");
+		if (!phoneNumber || !userId) {
+			setErrorMessage("Please fill in all fields.");
+			setYesBtnText("OK");
+			setShowErrorModal(true);
+			return;
+		}
 
 		if (!phoneNumber.match(phoneFormat))
 			return toast.error("Invalid Phone Number, Please enter a valid phone number");
@@ -117,7 +121,7 @@ function RequestDataDeletion() {
 			setTimeout(() => inputsRef.current[0] && inputsRef.current[0].focus(), 50);
 			toast.success("OTP sent successfully!");
 		}
-		catch (error) {
+		catch {
 			toast.error("An error occured. Please try again.");
 		}
 		finally {
@@ -142,13 +146,13 @@ function RequestDataDeletion() {
 				body: JSON.stringify({ phoneNumber, userId, otp: otp.join("") }),
 			});
 			const data = await res.json();
-			
-			if (!res.ok) 
+
+			if (!res.ok)
 				return toast.error(data?.error || "Something went wrong. Please try again.");
 
 			toast.success("OTP verified successfully!");
 		}
-		catch (error) {
+		catch {
 			toast.error("An error occured. Please try again.");
 		}
 		finally {
@@ -259,7 +263,6 @@ function RequestDataDeletion() {
 				show={showErrorModal}
 				heading={"Error"}
 				data={errorMessage}
-				yesText={yesBtnText}
 				onClose={() => setShowErrorModal(false)}
 				buttonText={yesBtnText}
 				onYes={() => setShowErrorModal(false)}
